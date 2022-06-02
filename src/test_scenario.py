@@ -1,4 +1,5 @@
 import inspect
+from .test_case import TestCase
 
 
 class TestScenario:
@@ -16,7 +17,9 @@ class TestScenario:
                     if not method.__name__.lower().startswith('test'):
                         continue
                     try:
-                        method()
+                        classname = test_class.__name__
+                        test_case = TestCase.init(method, classname)
+                        test_case()
                     except TypeError:
                         # Can't handle methods with required arguments.
                         pass
