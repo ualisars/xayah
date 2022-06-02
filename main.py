@@ -1,4 +1,4 @@
-from src.test_case import TestCase
+from src import TestCase
 
 
 def logger(fn):
