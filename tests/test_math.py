@@ -1,15 +1,17 @@
 from src.test_scenario import TestScenario
+from src import TestCase
 
 
 @TestScenario.init()
 class TestMath:
-    @staticmethod
-    def test_addition():
-        print('Addition')
+    @TestCase.init
+    def test_addition(self):
+        assert 5 == 2, "good"
 
+    @TestCase.init
     def test_substraction(self):
-        print('Substraction')
+        assert 3 - 2 == 1
 
-    @staticmethod
-    def test_multiplication():
-        print('Multiplication')
+    @TestCase.init
+    def test_multiplication(self):
+        assert 3 * 2 == 6
