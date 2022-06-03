@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from pydantic.types import Optional
-from pydantic.typing import Literal
+from pydantic.typing import Literal, List
 
 
 class TestResult(BaseModel):
@@ -10,3 +10,22 @@ class TestResult(BaseModel):
     status: Literal['passed', 'failed']
     assertion_message: str
     description: str
+
+
+class TestScenarioModel(BaseModel):
+    title: str
+    classname: str
+
+
+class TestCaseModel(BaseModel):
+    name: str
+    classname: Optional[str]
+    method: str
+    status: Literal['passed', 'failed']
+    assertion_message: str
+    description: str
+
+
+class TestResultsModel(BaseModel):
+    test_scenario: TestScenarioModel
+    test_cases: List[TestCaseModel]

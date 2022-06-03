@@ -1,5 +1,4 @@
 from src.test_scenario import TestScenario
-from src import TestCase
 
 
 @TestScenario.init()
