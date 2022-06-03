@@ -7,7 +7,6 @@ class TestScenario:
     @classmethod
     def init(cls):
         def add_method(test_class):
-            Forest().add_test_class(test_class)
             classname = test_class.__name__
 
             def run_test_cases():
@@ -29,7 +28,7 @@ class TestScenario:
                         # Can't handle methods with required arguments.
                         pass
 
-                Forest().add_test_result(classname, method_names)
+                Forest().add_test_classes(classname, method_names)
 
             setattr(test_class, 'run_test_cases', run_test_cases)
             return test_class

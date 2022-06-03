@@ -1,5 +1,4 @@
 from functools import wraps
-from .test_result import TestResult
 from .forest import Forest
 
 
@@ -29,9 +28,9 @@ class TestCase:
                     method=fn.__name__,
                     status='passed'
                 )
-                print(f"{fn.__name__} success")
+                print(f"{fn.__name__} passed")
             except AssertionError as AssError:
-                Forest.add_test_case(
+                Forest().add_test_case(
                     classname=classname,
                     method=fn.__name__,
                     status='failed',
@@ -41,16 +40,3 @@ class TestCase:
 
         return wrapper
 
-    @staticmethod
-    def write_to_json(**kwargs):
-        name = kwargs.get('classname', "") + kwargs.get('method', ""),
-        data = {
-            "name": name,
-            "classname": kwargs.get('classname', ""),
-            "method": kwargs.get('method', ""),
-            "status":  kwargs.get('status', ""),
-            "assertion_message":  kwargs.get('assertion_message', ""),
-            "description":  kwargs.get('description', ""),
-        }
-        test_result = TestResult(**data)
-        print(test_result)
