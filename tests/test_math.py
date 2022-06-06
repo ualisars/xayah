@@ -3,13 +3,11 @@ from src.test_scenario import TestScenario
 
 @TestScenario.init()
 class TestMath:
-    @staticmethod
-    def test_addition():
-        print('Addition')
+    def test_addition(self):
+        assert 5 == 2, "good"
 
     def test_substraction(self):
-        print('Substraction')
+        assert 3 - 2 == 1
 
-    @staticmethod
-    def test_multiplication():
-        print('Multiplication')
+    def test_multiplication(self):
+        assert 3 * 2 == 6
