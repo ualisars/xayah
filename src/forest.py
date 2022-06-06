@@ -16,6 +16,7 @@ class Forest(metaclass=MetaSingleton):
         self.test_scenarios = []
         self.test_cases = {}
         self.test_result = []
+        self.steps = {}
 
     def get_test_case(self, name):
         return self.test_cases.get(name)
@@ -24,11 +25,13 @@ class Forest(metaclass=MetaSingleton):
         classname = kwargs.get('classname', "")
         method = kwargs.get('method', "")
         test_name = f'{classname}::{method}'
+        steps = self.get_step(method)
         data = {
             "name": test_name,
             "classname": classname,
             "method": method,
             "status": kwargs.get('status', ""),
+            "steps": steps,
             "assertion_message": kwargs.get('assertion_message', ""),
             "description": kwargs.get('description', "")
         }
@@ -67,5 +70,16 @@ class Forest(metaclass=MetaSingleton):
             self.test_result.append(test_result)
             print(self.test_result)
 
+    def add_step(self, name, method, status):
+        step = {
+            'name': name,
+            'status': status
+        }
+        if not self.steps.get(method):
+            steps = [step]
+            self.steps[method] = steps
+        else:
+            self.steps[method].append(step)
 
-
+    def get_step(self, method):
+        return self.steps.get(method)

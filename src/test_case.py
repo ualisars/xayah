@@ -39,4 +39,3 @@ class TestCase:
                 print(f"{fn.__name__} failed with message: {AssError}")
 
         return wrapper
-
