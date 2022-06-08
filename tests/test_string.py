@@ -1,5 +1,6 @@
 from src.test_scenario import TestScenario
 from src import Step
+from src import Check
 
 
 @TestScenario.init()
@@ -22,11 +23,11 @@ class TestString:
             assert "b" == a
 
     def test_name(self):
-        with Step("Авторизация"):
+        with Check("Авторизация"):
             a = "v"
             assert 'a' == 'a'
-        with Step('Запрос'):
-            assert "v" == a
-        with Step('Проверка схемы'):
+        with Check('Запрос'):
+            assert "v" == 'b'
+        with Check('Проверка схемы'):
             assert "b" == a
         # assert 'blya' == 'k'
