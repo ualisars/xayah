@@ -3,7 +3,7 @@ from src import Step
 from src import Check
 
 
-@TestScenario.init()
+@TestScenario.init
 class TestString:
     @TestScenario.before_all
     def set_up(self):
