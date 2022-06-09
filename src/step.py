@@ -12,7 +12,10 @@ class Step:
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
+        message = ''
+        if exc_val:
+            message = str(exc_val)
         if type(self.assertion_instance) == exc_type:
-            Forest().add_step(name=self.name, method=self.method, status='failed')
+            Forest().add_step(name=self.name, method=self.method, message=message, status='failed')
         else:
-            Forest().add_step(name=self.name, method=self.method, status='passed')
+            Forest().add_step(name=self.name, method=self.method, message=message, status='passed')

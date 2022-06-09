@@ -20,6 +20,7 @@ class TestScenarioModel(BaseModel):
 class StepModel(BaseModel):
     name: str
     status: Literal['passed', 'failed']
+    message: Optional[str]
 
 
 class TestClassesModel(BaseModel):

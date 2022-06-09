@@ -71,10 +71,11 @@ class Forest(metaclass=MetaSingleton):
             self.test_result.append(test_result.dict())
             print(self.test_result)
 
-    def add_step(self, name, method, status):
+    def add_step(self, name, method, message, status):
         data = {
             'name': name,
-            'status': status
+            'status': status,
+            'message': message
         }
         step = StepModel(**data).dict()
         if not self.steps.get(method):

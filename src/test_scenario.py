@@ -7,9 +7,9 @@ class TestScenario:
     before_all_method = 'xayah_before_all'
     after_all_method = 'xayah_after_all'
 
-    @classmethod
-    def init(cls):
-        def add_method(test_class):
+    @staticmethod
+    def init(test_class):
+        def add_method():
             classname = test_class.__name__
 
             def run_test_cases():
@@ -46,7 +46,7 @@ class TestScenario:
             setattr(test_class, 'run_test_cases', run_test_cases)
             return test_class
 
-        return add_method
+        return add_method()
 
     @staticmethod
     def before_all(fn):
