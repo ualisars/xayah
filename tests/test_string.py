@@ -3,7 +3,7 @@ from src import Step
 from src import Check
 
 
-@TestScenario.init()
+@TestScenario.init
 class TestString:
     @TestScenario.before_all
     def set_up(self):
@@ -16,7 +16,7 @@ class TestString:
     def test_conct(self):
         with Step("Авторизация"):
             a = "v"
-            assert 'a' == 'a'
+            assert 'a' == 'v', 'понятно'
         with Step('Запрос'):
             assert "v" == a
         with Step('Проверка схемы'):
@@ -27,7 +27,7 @@ class TestString:
             a = "v"
             assert 'a' == 'a'
         with Check('Запрос'):
-            assert "v" == 'b'
+            assert "v" == 'b', 'не работает'
         with Check('Проверка схемы'):
             assert "b" == a
-        # assert 'blya' == 'k'
+        assert 'blya' == 'k'
