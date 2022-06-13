@@ -3,8 +3,9 @@ from src import Step
 from src.forest import Forest
 
 
-# TestMath.run_test_cases()
-TestString.run_test_cases()
+# TestString.run_test_cases()
+TestString.run_test_cases({'name': 'DEV', 'environment': 'DEV'}, {'name': 'PROD', 'environment': 'PROD'})
+
 
 
 # print('Forest')
