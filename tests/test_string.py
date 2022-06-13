@@ -14,6 +14,7 @@ class TestString:
         print('close connection')
 
     def test_conct(self):
+        print(self.test_param['name'])
         with Step("Авторизация"):
             a = "v"
             assert 'a' == 'v', 'понятно'

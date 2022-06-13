@@ -10,38 +10,29 @@ class TestScenario:
     @staticmethod
     def init(test_class):
         def add_method():
-            classname = test_class.__name__
-
-            def run_test_cases():
+            def run_test_cases(*args):
                 if not inspect.isclass(test_class):
                     print('Not a class')
                 f = test_class()
                 attrs = (getattr(f, name) for name in dir(f))
                 methods = [fn for fn in attrs if inspect.isfunction(fn) or inspect.ismethod(fn)]
 
-                method_names = []
                 teardown_methods = TestScenario.get_teardown_methods(methods)
+                if not args:
+                    args = ({},)
+                for param in args:
+                    classname = test_class.__name__ + param.get('name', '')
+                    setattr(test_class, 'test_param', param)
+                    before_all = teardown_methods.get(TestScenario.before_all_method)
+                    if before_all:
+                        before_all()
+                    method_names = TestScenario.run_methods(classname, methods)
 
-                before_all = teardown_methods.get(TestScenario.before_all_method)
-                if before_all:
-                    before_all()
-                for method in methods:
-                    method_name = method.__name__
-                    if not method_name.lower().startswith('test'):
-                        continue
-                    try:
-                        method_names.append(method.__name__)
-                        test_case = TestCase.init(method, classname)
-                        test_case()
-                    except TypeError:
-                        # Can't handle methods with required arguments.
-                        pass
+                    after_all = teardown_methods.get(TestScenario.after_all_method)
+                    if after_all:
+                        after_all()
 
-                after_all = teardown_methods.get(TestScenario.after_all_method)
-                if after_all:
-                    after_all()
-
-                Forest().add_test_classes(classname, method_names)
+                    Forest().add_test_classes(classname, method_names)
 
             setattr(test_class, 'run_test_cases', run_test_cases)
             return test_class
@@ -71,3 +62,18 @@ class TestScenario:
                 teardown_methods[method_name] = method
         return teardown_methods
 
+    @staticmethod
+    def run_methods(classname, methods):
+        method_names = []
+        for method in methods:
+            method_name = method.__name__
+            if not method_name.lower().startswith('test'):
+                continue
+            try:
+                method_names.append(method.__name__)
+                test_case = TestCase.init(method, classname)
+                test_case()
+            except TypeError:
+                # Can't handle methods with required arguments.
+                pass
+        return method_names
