@@ -1,5 +1,6 @@
 from functools import wraps
 from .forest import Forest
+from typing import Callable
 
 
 class TestCase:
@@ -18,7 +19,7 @@ class TestCase:
         return decorator
 
     @staticmethod
-    def init(fn, classname=""):
+    def init(fn: Callable, classname: str = ""):
         @wraps(fn)
         def wrapper(*args, **kwargs):
             try:
