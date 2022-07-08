@@ -1,6 +1,7 @@
 import inspect
 from .test_case import TestCase
 from .forest import Forest
+from typing import Callable, Dict, List
 
 
 class TestScenario:
@@ -8,15 +9,14 @@ class TestScenario:
     after_all_method = 'xayah_after_all'
 
     @staticmethod
-    def init(test_class):
-        def add_method():
-            def run_test_cases(*args):
+    def init(test_class: type) -> Callable:
+        def add_method() -> type:
+            def run_test_cases(*args: Dict[str, str]) -> None:
                 if not inspect.isclass(test_class):
                     print('Not a class')
                 f = test_class()
                 attrs = (getattr(f, name) for name in dir(f))
                 methods = [fn for fn in attrs if inspect.isfunction(fn) or inspect.ismethod(fn)]
-
                 teardown_methods = TestScenario.get_teardown_methods(methods)
                 if not args:
                     args = ({},)
@@ -40,21 +40,21 @@ class TestScenario:
         return add_method()
 
     @staticmethod
-    def before_all(fn):
+    def before_all(fn: Callable) -> Callable:
         def decorator():
             fn.__name__ = TestScenario.before_all_method
             return fn
         return decorator()
 
     @staticmethod
-    def after_all(fn):
+    def after_all(fn: Callable) -> Callable:
         def decorator():
             fn.__name__ = TestScenario.after_all_method
             return fn
         return decorator()
 
     @staticmethod
-    def get_teardown_methods(methods):
+    def get_teardown_methods(methods: List[Callable]) -> Dict[str, Callable]:
         teardown_methods = {}
         for method in methods:
             method_name = method.__name__
@@ -63,7 +63,7 @@ class TestScenario:
         return teardown_methods
 
     @staticmethod
-    def run_methods(classname, methods):
+    def run_methods(classname: str, methods: List[Callable]) -> List[str]:
         method_names = []
         for method in methods:
             method_name = method.__name__
