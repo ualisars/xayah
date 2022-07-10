@@ -1,4 +1,4 @@
-from .test_result import TestCaseModel, TestScenarioModel, TestResultsModel, StepModel, TestClassesModel
+from .test_result import TestCaseModel, TestResultsModel, StepModel, TestClassesModel
 from typing import List
 
 
@@ -12,9 +12,17 @@ class MetaSingleton(type):
 
 
 class Forest(metaclass=MetaSingleton):
+    """
+    storing test documentation: test cases, its steps and so on
+    and generating test result based on it
+    attributes:
+    - test classes: list of all classes that been decorated with TestScenario
+    - test cases: all test methods of particular class
+    - test result: object of classname and its methods (test cases)
+    - steps: steps of a test case
+    """
     def __init__(self):
         self.test_classes = []
-        self.test_scenarios = []
         self.test_cases = {}
         self.test_result = []
         self.steps = {}
@@ -38,14 +46,6 @@ class Forest(metaclass=MetaSingleton):
         }
         test_case = TestCaseModel(**data)
         self.test_cases[test_name] = test_case.dict()
-
-    def add_test_scenario(self, **kwargs: str) -> None:
-        data = {
-            "title": kwargs.get('title', ""),
-            "classname": kwargs.get('classname', "")
-        }
-        test_scenario = TestScenarioModel(**data)
-        self.test_scenarios.append(test_scenario.dict())
 
     def add_test_classes(self, classname: str, methods: List[str]) -> None:
         data = {
