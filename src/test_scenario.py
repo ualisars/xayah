@@ -1,6 +1,7 @@
 import inspect
 from .test_case import TestCase
 from .forest import Forest
+from typing import Callable, Dict, List
 
 
 class TestScenario:
@@ -8,15 +9,23 @@ class TestScenario:
     after_all_method = 'xayah_after_all'
 
     @staticmethod
-    def init(test_class):
-        def add_method():
-            def run_test_cases(*args):
+    def init(test_class: type) -> Callable:
+        """
+        attach run_test_cases method to decorated class
+        :param test_class: class to be decorated
+        """
+        def add_method() -> type:
+            def run_test_cases(*args: Dict[str, str]) -> None:
+                """
+                run all test methods inside test class
+                :param args: variables that will be accessed in test class
+                e.g {'driver': Driver()}
+                """
                 if not inspect.isclass(test_class):
                     print('Not a class')
                 f = test_class()
                 attrs = (getattr(f, name) for name in dir(f))
                 methods = [fn for fn in attrs if inspect.isfunction(fn) or inspect.ismethod(fn)]
-
                 teardown_methods = TestScenario.get_teardown_methods(methods)
                 if not args:
                     args = ({},)
@@ -32,6 +41,7 @@ class TestScenario:
                     if after_all:
                         after_all()
 
+                    # store test class and all its methods to create test result
                     Forest().add_test_classes(classname, method_names)
 
             setattr(test_class, 'run_test_cases', run_test_cases)
@@ -40,21 +50,37 @@ class TestScenario:
         return add_method()
 
     @staticmethod
-    def before_all(fn):
+    def before_all(fn: Callable) -> Callable:
+        """
+        change the name of decorated method,
+        so it can be called before test methods
+        :param fn: method to be decorated
+        """
         def decorator():
             fn.__name__ = TestScenario.before_all_method
             return fn
         return decorator()
 
     @staticmethod
-    def after_all(fn):
+    def after_all(fn: Callable) -> Callable:
+        """
+        change the name of decorated method,
+        so it can be called after test methods
+        :param fn: method to be decorated
+        """
         def decorator():
             fn.__name__ = TestScenario.after_all_method
             return fn
         return decorator()
 
     @staticmethod
-    def get_teardown_methods(methods):
+    def get_teardown_methods(methods: List[Callable]) -> Dict[str, Callable]:
+        """
+        generated the dict consisted of before_all and after_all methods
+        from all methods
+        :param methods: list of all methods in the class
+        :return: dict consisted of before_all and after_all methods
+        """
         teardown_methods = {}
         for method in methods:
             method_name = method.__name__
@@ -63,7 +89,12 @@ class TestScenario:
         return teardown_methods
 
     @staticmethod
-    def run_methods(classname, methods):
+    def run_methods(classname: str, methods: List[Callable]) -> List[str]:
+        """
+        run all methods in the class that have test prefix, e.g. test_login
+        :param classname: name of the class
+        :param methods: all methods in the class
+        """
         method_names = []
         for method in methods:
             method_name = method.__name__

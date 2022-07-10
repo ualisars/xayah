@@ -1,4 +1,5 @@
-from .test_result import TestCaseModel, TestScenarioModel, TestResultsModel, StepModel, TestClassesModel
+from .test_result import TestCaseModel, TestResultsModel, StepModel, TestClassesModel
+from typing import List
 
 
 class MetaSingleton(type):
@@ -11,17 +12,25 @@ class MetaSingleton(type):
 
 
 class Forest(metaclass=MetaSingleton):
+    """
+    storing test documentation: test cases, its steps and so on
+    and generating test result based on it
+    attributes:
+    - test classes: list of all classes that been decorated with TestScenario
+    - test cases: all test methods of particular class
+    - test result: object of classname and its methods (test cases)
+    - steps: steps of a test case
+    """
     def __init__(self):
         self.test_classes = []
-        self.test_scenarios = []
         self.test_cases = {}
         self.test_result = []
         self.steps = {}
 
-    def get_test_case(self, name):
+    def get_test_case(self, name: str) -> TestCaseModel:
         return self.test_cases.get(name)
 
-    def add_test_case(self, **kwargs):
+    def add_test_case(self, **kwargs: str) -> None:
         classname = kwargs.get('classname', "")
         method = kwargs.get('method', "")
         test_name = f'{classname}::{method}'
@@ -38,15 +47,7 @@ class Forest(metaclass=MetaSingleton):
         test_case = TestCaseModel(**data)
         self.test_cases[test_name] = test_case.dict()
 
-    def add_test_scenario(self, **kwargs):
-        data = {
-            "title": kwargs.get('title', ""),
-            "classname": kwargs.get('classname', "")
-        }
-        test_scenario = TestScenarioModel(**data)
-        self.test_scenarios.append(test_scenario.dict())
-
-    def add_test_classes(self, classname, methods):
+    def add_test_classes(self, classname: str, methods: List[str]) -> None:
         data = {
             "classname": classname,
             "method_names": methods
@@ -54,7 +55,7 @@ class Forest(metaclass=MetaSingleton):
         test_class = TestClassesModel(**data)
         self.test_classes.append(test_class.dict())
 
-    def create_test_result(self):
+    def create_test_result(self) -> None:
         for test_class in self.test_classes:
             classname = test_class.get('classname', '')
             methods = []
@@ -71,7 +72,7 @@ class Forest(metaclass=MetaSingleton):
             self.test_result.append(test_result.dict())
             print(self.test_result)
 
-    def add_step(self, name, method, message, status):
+    def add_step(self, name: str, method: str, message: str, status: str) -> None:
         data = {
             'name': name,
             'status': status,
@@ -84,5 +85,5 @@ class Forest(metaclass=MetaSingleton):
         else:
             self.steps[method].append(step)
 
-    def get_step(self, method):
+    def get_step(self, method: str) -> StepModel:
         return self.steps.get(method)
