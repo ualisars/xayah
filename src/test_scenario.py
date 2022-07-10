@@ -10,8 +10,17 @@ class TestScenario:
 
     @staticmethod
     def init(test_class: type) -> Callable:
+        """
+        attach run_test_cases method to decorated class
+        :param test_class: class to be decorated
+        """
         def add_method() -> type:
             def run_test_cases(*args: Dict[str, str]) -> None:
+                """
+                run all test methods inside test class
+                :param args: variables that will be accessed in test class
+                e.g {'driver': Driver()}
+                """
                 if not inspect.isclass(test_class):
                     print('Not a class')
                 f = test_class()
@@ -32,6 +41,7 @@ class TestScenario:
                     if after_all:
                         after_all()
 
+                    # store test class and all its methods to create test result
                     Forest().add_test_classes(classname, method_names)
 
             setattr(test_class, 'run_test_cases', run_test_cases)
@@ -41,6 +51,11 @@ class TestScenario:
 
     @staticmethod
     def before_all(fn: Callable) -> Callable:
+        """
+        change the name of decorated method,
+        so it can be called before test methods
+        :param fn: method to be decorated
+        """
         def decorator():
             fn.__name__ = TestScenario.before_all_method
             return fn
@@ -48,6 +63,11 @@ class TestScenario:
 
     @staticmethod
     def after_all(fn: Callable) -> Callable:
+        """
+        change the name of decorated method,
+        so it can be called after test methods
+        :param fn: method to be decorated
+        """
         def decorator():
             fn.__name__ = TestScenario.after_all_method
             return fn
@@ -55,6 +75,12 @@ class TestScenario:
 
     @staticmethod
     def get_teardown_methods(methods: List[Callable]) -> Dict[str, Callable]:
+        """
+        generated the dict consisted of before_all and after_all methods
+        from all methods
+        :param methods: list of all methods in the class
+        :return: dict consisted of before_all and after_all methods
+        """
         teardown_methods = {}
         for method in methods:
             method_name = method.__name__
@@ -64,6 +90,11 @@ class TestScenario:
 
     @staticmethod
     def run_methods(classname: str, methods: List[Callable]) -> List[str]:
+        """
+        run all methods in the class that have test prefix, e.g. test_login
+        :param classname: name of the class
+        :param methods: all methods in the class
+        """
         method_names = []
         for method in methods:
             method_name = method.__name__
