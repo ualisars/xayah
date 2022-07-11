@@ -1,5 +1,5 @@
 import inspect
-from .forest import Forest
+from .test_result import TestResult
 
 
 class Check:
@@ -16,7 +16,7 @@ class Check:
         if exc_val:
             message = str(exc_val)
         if type(self.assertion_instance) == exc_type:
-            Forest().add_step(name=self.name, method=self.method, message=message, status='failed')
+            TestResult().add_step(name=self.name, method=self.method, message=message, status='failed')
         else:
-            Forest().add_step(name=self.name, method=self.method, message=message, status='passed')
+            TestResult().add_step(name=self.name, method=self.method, message=message, status='passed')
         return True
