@@ -1,5 +1,4 @@
-from tests import CheckString, CheckMath
-from src import Step
+from xayah_test import CheckString
 from src.test_result import TestResult
 
 
