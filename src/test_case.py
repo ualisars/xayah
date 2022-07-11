@@ -23,9 +23,9 @@ class TestCase:
         @wraps(fn)
         def wrapper(*args, **kwargs):
             method = fn.__name__
-            steps = TestResult.get_step(method)
             try:
                 fn(*args, **kwargs)
+                steps = TestResult().get_step(method)
                 TestResult().add_test_case(
                     classname=classname,
                     method=method,
@@ -34,6 +34,7 @@ class TestCase:
                 )
                 print(f"{fn.__name__} passed")
             except AssertionError as AssError:
+                steps = TestResult().get_step(method)
                 TestResult().add_test_case(
                     classname=classname,
                     method=method,
