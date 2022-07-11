@@ -1,15 +1,15 @@
-from tests import TestMath, TestString
+from tests import CheckString, CheckMath
 from src import Step
-from src.forest import Forest
+from src.test_result import TestResult
 
 
 # TestString.run_test_cases()
-TestString.run_test_cases({'name': 'DEV', 'environment': 'DEV'}, {'name': 'PROD', 'environment': 'PROD'})
+CheckString.run_test_cases({'name': 'DEV', 'environment': 'DEV'}, {'name': 'PROD', 'environment': 'PROD'})
 
 
 
 # print('Forest')
-Forest().create_test_result()
+TestResult().create_test_result()
 # #
 # def test_conct():
 #     print('aaaa')

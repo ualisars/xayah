@@ -1,5 +1,5 @@
 from functools import wraps
-from .forest import Forest
+from .test_result import TestResult
 from typing import Callable
 
 
@@ -24,14 +24,14 @@ class TestCase:
         def wrapper(*args, **kwargs):
             try:
                 fn(*args, **kwargs)
-                Forest().add_test_case(
+                TestResult().add_test_case(
                     classname=classname,
                     method=fn.__name__,
                     status='passed'
                 )
                 print(f"{fn.__name__} passed")
             except AssertionError as AssError:
-                Forest().add_test_case(
+                TestResult().add_test_case(
                     classname=classname,
                     method=fn.__name__,
                     status='failed',

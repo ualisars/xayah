@@ -4,7 +4,7 @@ from src import Check
 
 
 @TestScenario.init
-class TestString:
+class CheckString:
     @TestScenario.before_all
     def set_up(self):
         print('Set Up')

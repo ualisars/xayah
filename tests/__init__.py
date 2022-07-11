@@ -1,2 +1,2 @@
-from .test_math import TestMath
-from .test_string import TestString
+from .check_math import CheckMath
+from .check_string import CheckString

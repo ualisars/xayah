@@ -1,60 +1,94 @@
-from pydantic import BaseModel
-from pydantic.types import Optional
-from pydantic.typing import Literal, List
+from .test_result_models import TestCaseModel, TestResultsModel, StepModel, TestClassesModel
+from typing import List
 
 
-class StepModel(BaseModel):
+class MetaSingleton(type):
+    _instances = {}
+
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super(MetaSingleton, cls).__call__(*args, **kwargs)
+        return cls._instances[cls]
+
+
+class TestResult(metaclass=MetaSingleton):
     """
-    test case steps
+    storing test documentation: test cases, its steps and so on
+    and generating test result based on it
     attributes:
-    - name: step's title
-    - status: shows whether step passed or failed
-    - message: reason why this step is failed
+    - test classes: list of all classes that been decorated with TestScenario
+    - test cases: all test methods of particular class
+    - test result: object of classname and its methods (test cases)
+    - steps: steps of a test case
     """
-    name: str
-    status: Literal['passed', 'failed']
-    message: Optional[str]
+    def __init__(self):
+        self.test_classes = []
+        self.test_cases = {}
+        self.test_result = []
+        self.steps = {}
 
+    def get_test_case(self, name: str) -> TestCaseModel:
+        """
+        get test case by its name (classname:method)
+        :param name: test case name ({classname}:{method})
+        :return: TestCaseModel
+        """
+        return self.test_cases.get(name)
 
-class TestClassesModel(BaseModel):
-    """
-    represents class with all test methods
-    stored all classed been run in test
-    used to created test result
-    attributes:
-    - classname: name of the class
-    - method_names: names of the class' methods
-    """
-    classname: str
-    method_names: List[str]
+    def add_test_case(self, **kwargs: str) -> None:
+        classname = kwargs.get('classname', "")
+        method = kwargs.get('method', "")
+        test_name = f'{classname}::{method}'
+        steps = self.get_step(method)
+        data = {
+            "name": test_name,
+            "classname": classname,
+            "method": method,
+            "status": kwargs.get('status', ""),
+            "steps": steps,
+            "assertion_message": kwargs.get('assertion_message', ""),
+            "description": kwargs.get('description', "")
+        }
+        test_case = TestCaseModel(**data)
+        self.test_cases[test_name] = test_case.dict()
 
+    def add_test_classes(self, classname: str, methods: List[str]) -> None:
+        data = {
+            "classname": classname,
+            "method_names": methods
+        }
+        test_class = TestClassesModel(**data)
+        self.test_classes.append(test_class.dict())
 
-class TestCaseModel(BaseModel):
-    """
-    Represents test case
-    attributes:
-    - name: name of the test case
-    - classname: name of the parent class
-    - method: name of the test method
-    - steps: testcase steps
-    - assertion_message: message shows a reason why test case failed
-    - description: additional information about test case
-    """
-    name: str
-    classname: Optional[str]
-    method: str
-    status: Literal['passed', 'failed']
-    steps: List[StepModel]
-    assertion_message: str
-    description: str
+    def create_test_result(self) -> None:
+        for test_class in self.test_classes:
+            classname = test_class.get('classname', '')
+            methods = []
+            for method in test_class['method_names']:
+                name = f'{classname}::{method}'
+                test_case = self.test_cases.get(name)
+                methods.append(test_case)
 
+            data = {
+                "classname": classname,
+                "test_cases": methods
+            }
+            test_result = TestResultsModel(**data)
+            self.test_result.append(test_result.dict())
+            print(self.test_result)
 
-class TestResultsModel(BaseModel):
-    """
-    represents all test cases been run
-    attributes:
-    - classname: name of the run class
-    - test_cases: methods of the class with test prefix
-    """
-    classname: str
-    test_cases: List[TestCaseModel]
+    def add_step(self, name: str, method: str, message: str, status: str) -> None:
+        data = {
+            'name': name,
+            'status': status,
+            'message': message
+        }
+        step = StepModel(**data).dict()
+        if not self.steps.get(method):
+            steps = [step]
+            self.steps[method] = steps
+        else:
+            self.steps[method].append(step)
+
+    def get_step(self, method: str) -> List[StepModel]:
+        return self.steps.get(method)

@@ -2,7 +2,7 @@ from src.test_scenario import TestScenario
 
 
 @TestScenario.init
-class TestMath:
+class CheckMath:
     def test_addition(self):
         assert 5 == 2, "good"
 
