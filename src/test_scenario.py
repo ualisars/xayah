@@ -1,6 +1,6 @@
 import inspect
 from .test_case import TestCase
-from .forest import Forest
+from .test_result import TestResult
 from typing import Callable, Dict, List
 
 
@@ -42,7 +42,7 @@ class TestScenario:
                         after_all()
 
                     # store test class and all its methods to create test result
-                    Forest().add_test_classes(classname, method_names)
+                    TestResult().add_test_classes(classname, method_names)
 
             setattr(test_class, 'run_test_cases', run_test_cases)
             return test_class
