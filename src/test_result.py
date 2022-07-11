@@ -35,17 +35,16 @@ class TestResult(metaclass=MetaSingleton):
         """
         return self.test_cases.get(name)
 
-    def add_test_case(self, **kwargs: str) -> None:
+    def add_test_case(self, **kwargs: str or StepModel) -> None:
         classname = kwargs.get('classname', "")
         method = kwargs.get('method', "")
         test_name = f'{classname}::{method}'
-        steps = self.get_step(method)
         data = {
             "name": test_name,
             "classname": classname,
             "method": method,
             "status": kwargs.get('status', ""),
-            "steps": steps,
+            "steps": kwargs.get('steps', []),
             "assertion_message": kwargs.get('assertion_message', ""),
             "description": kwargs.get('description', "")
         }

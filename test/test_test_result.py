@@ -3,7 +3,7 @@ class TestTestResult:
         classname = "xayah_class"
         method = "xayah_method"
         status = "passed"
-        name = f"{classname}:{method}"
+        name = f"{classname}::{method}"
 
         test_result.add_test_case(classname=classname, method=method, status=status)
 
@@ -19,14 +19,14 @@ class TestTestResult:
         classname = "xayah_class"
         method = "xayah_method_failed"
         status = "failed"
-        name = f"{classname}:{method}"
+        name = f"{classname}::{method}"
 
         test_result.add_test_case(classname=classname, method=method, status=status)
 
         test_case = test_result.get_test_case(name)
 
         assert test_case is not None, f"test case not found by name: {name}"
-        assert test_case.status == status
+        assert test_case.get('status') == status
 
     def test_add_step(self, test_result):
         step_name = 'authorization'

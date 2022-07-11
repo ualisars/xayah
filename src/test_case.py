@@ -22,20 +22,24 @@ class TestCase:
     def init(fn: Callable, classname: str = ""):
         @wraps(fn)
         def wrapper(*args, **kwargs):
+            method = fn.__name__
+            steps = TestResult.get_step(method)
             try:
                 fn(*args, **kwargs)
                 TestResult().add_test_case(
                     classname=classname,
-                    method=fn.__name__,
-                    status='passed'
+                    method=method,
+                    status='passed',
+                    steps=steps
                 )
                 print(f"{fn.__name__} passed")
             except AssertionError as AssError:
                 TestResult().add_test_case(
                     classname=classname,
-                    method=fn.__name__,
+                    method=method,
                     status='failed',
-                    assertion_message=str(AssError)
+                    assertion_message=str(AssError),
+                    steps=steps
                 )
                 print(f"{fn.__name__} failed with message: {AssError}")
 
