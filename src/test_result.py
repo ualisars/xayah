@@ -39,12 +39,15 @@ class TestResult(metaclass=MetaSingleton):
         classname = kwargs.get('classname', "")
         method = kwargs.get('method', "")
         test_name = f'{classname}::{method}'
+        steps = kwargs.get('steps')
+        if steps is None:
+            steps = []
         data = {
             "name": test_name,
             "classname": classname,
             "method": method,
             "status": kwargs.get('status', ""),
-            "steps": kwargs.get('steps', []),
+            "steps": steps,
             "assertion_message": kwargs.get('assertion_message', ""),
             "description": kwargs.get('description', "")
         }
