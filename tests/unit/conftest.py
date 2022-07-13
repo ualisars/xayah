@@ -2,6 +2,7 @@ from pytest import fixture
 from src.test_result import TestResult
 
 
-@fixture(scope='session')
+@fixture(scope='function')
 def test_result():
-    return TestResult()
+    yield TestResult()
+    TestResult().clear_test_result()

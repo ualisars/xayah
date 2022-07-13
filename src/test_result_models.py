@@ -49,7 +49,7 @@ class TestCaseModel(BaseModel):
     description: str
 
 
-class TestResultsModel(BaseModel):
+class TestScenarioModel(BaseModel):
     """
     represents all test cases been run
     attributes:
