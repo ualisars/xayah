@@ -34,12 +34,14 @@ class TestCase:
                 )
                 print(f"{fn.__name__} passed")
             except AssertionError as AssError:
+                assertion = str(AssError).split('\n')
+                assertion_message = assertion[0]
                 steps = TestResult().get_step(method)
                 TestResult().add_test_case(
                     classname=classname,
                     method=method,
                     status='failed',
-                    assertion_message=str(AssError),
+                    assertion_message=assertion_message,
                     steps=steps
                 )
                 print(f"{fn.__name__} failed with message: {AssError}")
