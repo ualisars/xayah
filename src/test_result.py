@@ -1,4 +1,4 @@
-from .test_result_models import TestCaseModel, TestResultsModel, StepModel, TestClassesModel
+from .test_result_models import TestCaseModel, TestScenarioModel, StepModel, TestClassesModel
 from typing import List
 
 
@@ -24,7 +24,7 @@ class TestResult(metaclass=MetaSingleton):
     def __init__(self):
         self.test_classes = []
         self.test_cases = {}
-        self.test_result = []
+        self.test_scenarios = []
         self.steps = {}
 
     def get_test_case(self, name: str) -> TestCaseModel:
@@ -62,7 +62,7 @@ class TestResult(metaclass=MetaSingleton):
         test_class = TestClassesModel(**data)
         self.test_classes.append(test_class.dict())
 
-    def create_test_result(self) -> None:
+    def create_test_result(self) -> List[TestScenarioModel]:
         for test_class in self.test_classes:
             classname = test_class.get('classname', '')
             methods = []
@@ -75,9 +75,10 @@ class TestResult(metaclass=MetaSingleton):
                 "classname": classname,
                 "test_cases": methods
             }
-            test_result = TestResultsModel(**data)
-            self.test_result.append(test_result.dict())
-            print(self.test_result)
+            test_scenario = TestScenarioModel(**data)
+            self.test_scenarios.append(test_scenario.dict())
+            print(self.test_scenarios)
+            return self.test_scenarios
 
     def add_step(self, name: str, method: str, message: str, status: str) -> None:
         data = {
@@ -94,3 +95,9 @@ class TestResult(metaclass=MetaSingleton):
 
     def get_step(self, method: str) -> List[StepModel]:
         return self.steps.get(method)
+
+    def clear_test_result(self) -> None:
+        self.test_classes = []
+        self.test_cases = {}
+        self.test_scenarios = []
+        self.steps = {}
