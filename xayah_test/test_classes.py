@@ -21,3 +21,14 @@ class StepTestSmoke:
             assert 1 == 1
         with Step('step two'):
             assert 2 == 2
+
+
+@TestScenario.init
+class StepClassFailedStep:
+    def test_previous(self):
+        with Step('passed step 1'):
+            assert 1 == 1
+        with Step('failed step'):
+            assert 3 == 2
+        with Step('passed step 1'):
+            assert 2 == 2
