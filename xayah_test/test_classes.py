@@ -1,5 +1,6 @@
 from src import TestScenario
 from src.step import Step
+from src.check import Check
 
 
 @TestScenario.init
@@ -32,3 +33,23 @@ class StepClassFailedStep:
             assert 3 == 2
         with Step('passed step 1'):
             assert 2 == 2
+
+
+@TestScenario.init
+class CheckClassSmoke:
+    def test_with_checks(self):
+        with Check('check 1'):
+            assert 1 == 1
+        with Check('check 2'):
+            assert 2 == 2
+
+
+@TestScenario.init
+class CheckClassPreviousFailed:
+    def test_previous_failed(self):
+        with Check('check 1 passed'):
+            assert 1 == 1
+        with Check('check 2 failed'):
+            assert 2 == 5
+        with Check('check 3 passed'):
+            assert 3 == 3
