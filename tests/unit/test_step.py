@@ -1,4 +1,4 @@
-from xayah_test import StepTestSmoke, StepClassFailedStep
+from xayah_test.test_classes import StepTestSmoke, StepClassFailedStep
 
 
 class TestStep:
