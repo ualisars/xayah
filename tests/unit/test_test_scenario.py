@@ -1,5 +1,4 @@
 from src import TestScenario
-from src.step import Step
 
 
 class TestTestScenario:

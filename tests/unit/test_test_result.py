@@ -1,4 +1,4 @@
-from xayah_test import TestResultTestPositive, ClassTestFailed
+from xayah_test.test_classes import TestResultTestPositive, ClassTestFailed
 
 
 class TestTestResult:
