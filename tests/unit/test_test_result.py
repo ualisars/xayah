@@ -39,7 +39,7 @@ class TestTestResult:
 
         test_result.add_step(step_name, method, message, step_status)
 
-        steps = test_result.get_step(method)
+        steps = test_result.get_steps(method)
 
         assert len(steps) == 1, "step is not added"
 

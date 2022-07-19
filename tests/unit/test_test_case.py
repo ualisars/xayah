@@ -38,3 +38,20 @@ class TestTestCase:
         assert test_case.get('method') == method_name
 
         assert test_case.get('status') == 'failed'
+
+    def test_check_status_passed(self):
+        steps = [
+            {'name': 'step1', 'status': 'passed', 'message': ''},
+            {'name': 'step2', 'status': 'passed', 'message': ''}
+        ]
+        status = TestCase.check_status(steps)
+        assert status == 'passed'
+
+    def test_check_status_failed(self):
+        steps = [
+            {'name': 'step1', 'status': 'passed', 'message': ''},
+            {'name': 'step2', 'status': 'failed', 'message': ''},
+            {'name': 'step3', 'status': 'passed', 'message': ''}
+        ]
+        status = TestCase.check_status(steps)
+        assert status == 'failed'
