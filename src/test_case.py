@@ -2,6 +2,7 @@ from functools import wraps
 from .test_result import TestResult
 from typing import Callable, List, Dict
 from .test_result import StepModel
+import inspect
 
 
 class TestCase:
@@ -11,18 +12,18 @@ class TestCase:
     and also stores meta information: title, description and so on
     """
     @classmethod
-    def title(cls, title):
-        def decorator(fn):
-            print('title', title)
-            print('fn', fn)
+    def title(cls, title: str) -> Callable:
+        """
+        Add title to test case
+        :param title: test case title
+        """
+        def add_title_to_test_case(fn: Callable):
+            method_name = fn.__name__
+            class_name = inspect.stack()[1][3]
 
-            def wrapper(*args, **kwargs):
-                print('args', args)
-                print('kwargs', kwargs)
-                fn(*args, **kwargs)
-                print(f'title: {title}')
-            return wrapper
-        return decorator
+            TestResult().add_test_case(title=title, method=method_name, classname=class_name)
+            return fn
+        return add_title_to_test_case
 
     @staticmethod
     def check_status(steps: List[StepModel] or List[Dict]) -> str:

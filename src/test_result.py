@@ -38,6 +38,21 @@ class TestResult(metaclass=MetaSingleton):
     def add_test_case(self, **kwargs: str or StepModel) -> None:
         classname = kwargs.get('classname', "")
         method = kwargs.get('method', "")
+        test_case_name = f'{classname}::{method}'
+
+        test_case = self.test_cases.get(test_case_name)
+
+        kwargs.update({'name': test_case_name})
+
+        if test_case:
+            test_case.update(**kwargs)
+        else:
+            test_case = TestCaseModel(**kwargs)
+            self.test_cases[test_case_name] = test_case.dict()
+
+    def add_test_case_old(self, **kwargs: str or StepModel) -> None:
+        classname = kwargs.get('classname', "")
+        method = kwargs.get('method', "")
         test_name = f'{classname}::{method}'
         steps = kwargs.get('steps')
         if steps is None:
