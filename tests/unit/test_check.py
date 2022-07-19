@@ -1,17 +1,17 @@
-from xayah_test.test_classes import CheckClassSmoke, CheckClassPreviousFailed
+from xayah_test.classes.check_classes import ClassCheckPassed, ClassCheckFailed
 
 
 class TestCheck:
-    def test_check_smoke(self, test_result):
-        smoke_classname = 'CheckClassSmoke'
-        CheckClassSmoke.run_test_cases()
+    def test_check_passed(self, test_result):
+        passed_classname = 'ClassCheckPassed'
+        ClassCheckPassed.run_test_cases()
         result = test_result.create_test_result()
 
         assert len(result) == 1, "not exactly 1 test scenario in test result"
         test_scenario = result[0]
 
         classname = test_scenario.get('classname')
-        assert classname == smoke_classname
+        assert classname == passed_classname
 
         test_cases = test_scenario.get('test_cases')
 
@@ -36,8 +36,8 @@ class TestCheck:
         assert step2.get('status') == 'passed'
 
     def test_previous_failed(self, test_result):
-        smoke_classname = 'CheckClassPreviousFailed'
-        CheckClassPreviousFailed.run_test_cases()
+        smoke_classname = 'ClassCheckFailed'
+        ClassCheckFailed.run_test_cases()
         result = test_result.create_test_result()
 
         assert len(result) == 1, "not exactly 1 test scenario in test result"
