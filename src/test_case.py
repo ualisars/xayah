@@ -4,6 +4,11 @@ from typing import Callable
 
 
 class TestCase:
+    """
+    stores class method information
+    such as classname, method' name, status
+    and also stores meta information: title, description and so on
+    """
     @classmethod
     def title(cls, title):
         def decorator(fn):
@@ -20,6 +25,12 @@ class TestCase:
 
     @staticmethod
     def init(fn: Callable, classname: str = ""):
+        """
+        intercepts asserts in method and write
+        information to test result
+        :param fn: method to be decorated
+        :param classname: name of the parent class
+        """
         @wraps(fn)
         def wrapper(*args, **kwargs):
             method = fn.__name__

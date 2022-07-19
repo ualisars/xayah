@@ -30,7 +30,7 @@ class TestResult(metaclass=MetaSingleton):
     def get_test_case(self, name: str) -> TestCaseModel:
         """
         get test case by its name (classname:method)
-        :param name: test case name ({classname}:{method})
+        :param name: test case name ({classname}::{method})
         :return: TestCaseModel
         """
         return self.test_cases.get(name)

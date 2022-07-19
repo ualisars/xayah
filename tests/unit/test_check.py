@@ -1,10 +1,10 @@
-from xayah_test.classes.step_classes import ClassStepPassed, ClassStepFailed
+from xayah_test.classes.check_classes import ClassCheckPassed, ClassCheckFailed
 
 
-class TestStep:
-    def test_step_passed(self, test_result):
-        passed_classname = 'ClassStepPassed'
-        ClassStepPassed.run_test_cases()
+class TestCheck:
+    def test_check_passed(self, test_result):
+        passed_classname = 'ClassCheckPassed'
+        ClassCheckPassed.run_test_cases()
         result = test_result.create_test_result()
 
         assert len(result) == 1, "not exactly 1 test scenario in test result"
@@ -25,21 +25,26 @@ class TestStep:
 
         step1 = steps[0]
 
-        assert step1.get('name') == 'step one'
+        assert step1.get('name') == 'check 1'
 
         assert step1.get('status') == 'passed'
 
-    "if previous step failed next step is not run"
-    def test_previous_step_failed(self, test_result):
-        step_classname = 'ClassStepFailed'
-        ClassStepFailed.run_test_cases()
+        step2 = steps[1]
+
+        assert step2.get('name') == 'check 2'
+
+        assert step2.get('status') == 'passed'
+
+    def test_previous_failed(self, test_result):
+        smoke_classname = 'ClassCheckFailed'
+        ClassCheckFailed.run_test_cases()
         result = test_result.create_test_result()
 
         assert len(result) == 1, "not exactly 1 test scenario in test result"
         test_scenario = result[0]
 
         classname = test_scenario.get('classname')
-        assert classname == step_classname
+        assert classname == smoke_classname
 
         test_cases = test_scenario.get('test_cases')
 
@@ -49,16 +54,22 @@ class TestStep:
 
         steps = test_case.get('steps')
 
-        assert len(steps) == 2, 'not exactly 1 steps in test case'
+        assert len(steps) == 3, 'not exactly 2 steps in test case'
 
-        passed_step = steps[0]
+        step1 = steps[0]
 
-        assert passed_step.get('name') == 'passed step 1'
+        assert step1.get('name') == 'check 1 passed'
 
-        assert passed_step.get('status') == 'passed'
+        assert step1.get('status') == 'passed'
 
-        failed_step = steps[1]
+        step2 = steps[1]
 
-        assert failed_step.get('name') == 'failed step'
+        assert step2.get('name') == 'check 2 failed'
 
-        assert failed_step.get('status') == 'failed'
+        assert step2.get('status') == 'failed'
+
+        step3 = steps[2]
+
+        assert step3.get('name') == 'check 3 passed'
+
+        assert step3.get('status') == 'passed'
