@@ -93,8 +93,8 @@ class TestResult(metaclass=MetaSingleton):
         else:
             self.steps[method].append(step)
 
-    def get_step(self, method: str) -> List[StepModel]:
-        return self.steps.get(method)
+    def get_steps(self, method: str) -> List[StepModel]:
+        return self.steps.get(method, [])
 
     def clear_test_result(self) -> None:
         self.test_classes = []
