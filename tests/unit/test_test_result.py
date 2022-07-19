@@ -1,4 +1,4 @@
-from xayah_test.test_classes import TestResultTestPositive, ClassTestFailed
+from xayah_test.classes.test_result_classes import ClassResultTestPositive, ClassTestResultFailed
 
 
 class TestTestResult:
@@ -50,8 +50,8 @@ class TestTestResult:
         assert step.get('message') == message
 
     def test_create_test_result_smoke(self, test_result):
-        test_result_classname = 'TestResultTestPositive'
-        TestResultTestPositive.run_test_cases()
+        test_result_classname = 'ClassResultTestPositive'
+        ClassResultTestPositive.run_test_cases()
         result = test_result.create_test_result()
 
         assert len(result) == 1, "not exactly 1 test scenario in test result"
@@ -78,14 +78,14 @@ class TestTestResult:
         assert test_case_method == 'passed'
 
     def test_create_test_result_failed(self, test_result):
-        ClassTestFailed.run_test_cases()
+        ClassTestResultFailed.run_test_cases()
         result = test_result.create_test_result()
 
         assert len(result) == 1, "not exactly 1 test scenario in test result"
         test_scenario = result[0]
 
         classname = test_scenario.get('classname')
-        assert classname == 'ClassTestFailed'
+        assert classname == 'ClassTestResultFailed'
 
         test_cases = test_scenario.get('test_cases')
         assert len(test_cases) == 1, "not exactly 1 test cases in test scenario"

@@ -1,17 +1,17 @@
-from xayah_test.test_classes import StepTestSmoke, StepClassFailedStep
+from xayah_test.classes.step_classes import ClassStepPassed, ClassStepFailed
 
 
 class TestStep:
-    def test_step_smoke(self, test_result):
-        smoke_classname = 'StepTestSmoke'
-        StepTestSmoke.run_test_cases()
+    def test_step_passed(self, test_result):
+        passed_classname = 'ClassStepPassed'
+        ClassStepPassed.run_test_cases()
         result = test_result.create_test_result()
 
         assert len(result) == 1, "not exactly 1 test scenario in test result"
         test_scenario = result[0]
 
         classname = test_scenario.get('classname')
-        assert classname == smoke_classname
+        assert classname == passed_classname
 
         test_cases = test_scenario.get('test_cases')
 
@@ -31,8 +31,8 @@ class TestStep:
 
     "if previous step failed next step is not run"
     def test_previous_step_failed(self, test_result):
-        step_classname = 'StepClassFailedStep'
-        StepClassFailedStep.run_test_cases()
+        step_classname = 'ClassStepFailed'
+        ClassStepFailed.run_test_cases()
         result = test_result.create_test_result()
 
         assert len(result) == 1, "not exactly 1 test scenario in test result"
