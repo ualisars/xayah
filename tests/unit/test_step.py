@@ -49,7 +49,7 @@ class TestStep:
 
         steps = test_case.get('steps')
 
-        assert len(steps) == 2, 'not exactly 1 steps in test case'
+        assert len(steps) == 2, 'not exactly 2 steps in test case'
 
         passed_step = steps[0]
 
