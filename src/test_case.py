@@ -11,8 +11,8 @@ class TestCase:
     such as classname, method' name, status
     and also stores meta information: title, description and so on
     """
-    @classmethod
-    def title(cls, title: str) -> Callable:
+    @staticmethod
+    def title(title: str) -> Callable:
         """
         Add title to test case
         :param title: test case title

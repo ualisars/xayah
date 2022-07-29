@@ -3,7 +3,7 @@ from src import TestScenario
 
 class TestTestScenario:
     @TestScenario.init
-    class TestRunTestCases:
+    class RunTestCases:
         def __init__(self):
             self.values = []
 
@@ -29,5 +29,5 @@ class TestTestScenario:
         assert run_test_cases is not 'None', "attribute run_test_cases not found at class TestClass"
 
     def test_run_test_cases(self):
-        self.TestRunTestCases.run_test_cases()
+        self.RunTestCases.run_test_cases()
         assert 1 == 1
