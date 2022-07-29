@@ -44,7 +44,6 @@ class TestResult(metaclass=MetaSingleton):
         return self.test_cases.get(name)
 
     def add_test_case(self, **kwargs: str or StepModel) -> None:
-        print('add test case', kwargs)
         classname = kwargs.get('classname', "")
         method = kwargs.get('method', "")
         test_case_name = f'{classname}::{method}'
