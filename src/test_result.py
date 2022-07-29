@@ -27,6 +27,14 @@ class TestResult(metaclass=MetaSingleton):
         self.test_scenarios = []
         self.steps = {}
 
+    def __repr__(self):
+        return f'''
+            test_classes: {self.test_classes}\n 
+            test_cases: {self.test_cases}\n 
+            test_scenarios: {self.test_scenarios}\n 
+            steps: {self.steps}
+        '''
+
     def get_test_case(self, name: str) -> TestCaseModel:
         """
         get test case by its name (classname:method)
@@ -36,6 +44,21 @@ class TestResult(metaclass=MetaSingleton):
         return self.test_cases.get(name)
 
     def add_test_case(self, **kwargs: str or StepModel) -> None:
+        classname = kwargs.get('classname', "")
+        method = kwargs.get('method', "")
+        test_case_name = f'{classname}::{method}'
+
+        test_case = self.test_cases.get(test_case_name)
+
+        kwargs.update({'name': test_case_name})
+
+        if test_case:
+            test_case.update(**kwargs)
+        else:
+            test_case = TestCaseModel(**kwargs)
+            self.test_cases[test_case_name] = test_case.dict()
+
+    def add_test_case_old(self, **kwargs: str or StepModel) -> None:
         classname = kwargs.get('classname', "")
         method = kwargs.get('method', "")
         test_name = f'{classname}::{method}'

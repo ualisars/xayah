@@ -43,10 +43,11 @@ class TestCaseModel(BaseModel):
     name: str
     classname: Optional[str]
     method: str
-    status: Literal['passed', 'failed']
-    steps: List[StepModel]
-    assertion_message: str
-    description: str
+    status: Literal['passed', 'failed'] = 'failed'
+    steps: List[StepModel] = []
+    assertion_message: str = ''
+    title: str = ''
+    description: str = ''
 
 
 class TestScenarioModel(BaseModel):
