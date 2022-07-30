@@ -30,19 +30,19 @@ class TestScenario:
                 if not args:
                     args = ({},)
                 for param in args:
-                    classname = test_class.__name__ + param.get('name', '')
+                    class_name = test_class.__name__ + param.get('name', '')
                     setattr(test_class, 'test_param', param)
                     before_all = teardown_methods.get(TestScenario.before_all_method)
                     if before_all:
                         before_all()
-                    method_names = TestScenario.run_methods(classname, methods)
+                    method_names = TestScenario.run_methods(class_name, methods)
 
                     after_all = teardown_methods.get(TestScenario.after_all_method)
                     if after_all:
                         after_all()
 
                     # store test class and all its methods to create test result
-                    TestResult().add_test_classes(classname, method_names)
+                    TestResult().add_test_classes(class_name, method_names)
 
             setattr(test_class, 'run_test_cases', run_test_cases)
             return test_class
@@ -89,10 +89,10 @@ class TestScenario:
         return teardown_methods
 
     @staticmethod
-    def run_methods(classname: str, methods: List[Callable]) -> List[str]:
+    def run_methods(class_name: str, methods: List[Callable]) -> List[str]:
         """
         run all methods in the class that have test prefix, e.g. test_login
-        :param classname: name of the class
+        :param class_name: name of the class
         :param methods: all methods in the class
         """
         method_names = []
@@ -102,7 +102,7 @@ class TestScenario:
                 continue
             try:
                 method_names.append(method_name)
-                test_case = TestCase.init(method, classname)
+                test_case = TestCase.init(method, class_name)
                 test_case()
             except TypeError:
                 # Can't handle methods with required arguments.

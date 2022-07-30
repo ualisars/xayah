@@ -3,15 +3,15 @@ from xayah_test.classes.step_classes import ClassStepPassed, ClassStepFailed
 
 class TestStep:
     def test_step_passed(self, test_result):
-        passed_classname = 'ClassStepPassed'
+        passed_class_name = 'ClassStepPassed'
         ClassStepPassed.run_test_cases()
         result = test_result.create_test_result()
 
         assert len(result) == 1, "not exactly 1 test scenario in test result"
         test_scenario = result[0]
 
-        classname = test_scenario.get('classname')
-        assert classname == passed_classname
+        class_name = test_scenario.get('class_name')
+        assert class_name == passed_class_name
 
         test_cases = test_scenario.get('test_cases')
 
@@ -41,15 +41,15 @@ class TestStep:
 
     "if previous step failed next step is not run"
     def test_previous_step_failed(self, test_result):
-        step_classname = 'ClassStepFailed'
+        step_class_name = 'ClassStepFailed'
         ClassStepFailed.run_test_cases()
         result = test_result.create_test_result()
 
         assert len(result) == 1, "not exactly 1 test scenario in test result"
         test_scenario = result[0]
 
-        classname = test_scenario.get('classname')
-        assert classname == step_classname
+        class_name = test_scenario.get('class_name')
+        assert class_name == step_class_name
 
         test_cases = test_scenario.get('test_cases')
 

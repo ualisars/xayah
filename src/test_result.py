@@ -18,7 +18,7 @@ class TestResult(metaclass=MetaSingleton):
     attributes:
     - test classes: list of all classes that been decorated with TestScenario
     - test cases: all test methods of particular class
-    - test result: object of classname and its methods (test cases)
+    - test result: object of class_name and its methods (test cases)
     - steps: steps of a test case
     """
     def __init__(self):
@@ -37,16 +37,16 @@ class TestResult(metaclass=MetaSingleton):
 
     def get_test_case(self, name: str) -> TestCaseModel:
         """
-        get test case by its name (classname:method)
-        :param name: test case name ({classname}::{method})
+        get test case by its name (class_name:method)
+        :param name: test case name ({class_name}::{method})
         :return: TestCaseModel
         """
         return self.test_cases.get(name)
 
     def add_test_case(self, **kwargs: str or StepModel) -> None:
-        classname = kwargs.get('classname', "")
+        class_name = kwargs.get('class_name', "")
         method_name = kwargs.get('method_name', "")
-        test_case_name = f'{classname}::{method_name}'
+        test_case_name = f'{class_name}::{method_name}'
 
         test_case = self.test_cases.get(test_case_name)
 
@@ -59,15 +59,15 @@ class TestResult(metaclass=MetaSingleton):
             self.test_cases[test_case_name] = test_case.dict()
 
     def add_test_case_old(self, **kwargs: str or StepModel) -> None:
-        classname = kwargs.get('classname', "")
+        class_name = kwargs.get('class_name', "")
         method = kwargs.get('method', "")
-        test_name = f'{classname}::{method}'
+        test_name = f'{class_name}::{method}'
         steps = kwargs.get('steps')
         if steps is None:
             steps = []
         data = {
             "name": test_name,
-            "classname": classname,
+            "class_name": class_name,
             "method": method,
             "status": kwargs.get('status', ""),
             "steps": steps,
@@ -77,9 +77,9 @@ class TestResult(metaclass=MetaSingleton):
         test_case = TestCaseModel(**data)
         self.test_cases[test_name] = test_case.dict()
 
-    def add_test_classes(self, classname: str, methods: List[str]) -> None:
+    def add_test_classes(self, class_name: str, methods: List[str]) -> None:
         data = {
-            "classname": classname,
+            "class_name": class_name,
             "method_names": methods
         }
         test_class = TestClassesModel(**data)
@@ -87,15 +87,15 @@ class TestResult(metaclass=MetaSingleton):
 
     def create_test_result(self) -> List[TestScenarioModel]:
         for test_class in self.test_classes:
-            classname = test_class.get('classname', '')
+            class_name = test_class.get('class_name', '')
             methods = []
             for method in test_class['method_names']:
-                name = f'{classname}::{method}'
+                name = f'{class_name}::{method}'
                 test_case = self.test_cases.get(name)
                 methods.append(test_case)
 
             data = {
-                "classname": classname,
+                "class_name": class_name,
                 "test_cases": methods
             }
             test_scenario = TestScenarioModel(**data)

@@ -3,15 +3,15 @@ from xayah_test.classes.check_classes import ClassCheckPassed, ClassCheckFailed
 
 class TestCheck:
     def test_check_passed(self, test_result):
-        passed_classname = 'ClassCheckPassed'
+        passed_class_name = 'ClassCheckPassed'
         ClassCheckPassed.run_test_cases()
         result = test_result.create_test_result()
 
         assert len(result) == 1, "not exactly 1 test scenario in test result"
         test_scenario = result[0]
 
-        classname = test_scenario.get('classname')
-        assert classname == passed_classname
+        class_name = test_scenario.get('class_name')
+        assert class_name == passed_class_name
 
         test_cases = test_scenario.get('test_cases')
 
@@ -40,15 +40,15 @@ class TestCheck:
         assert step2.get('category') == 'check'
 
     def test_previous_failed(self, test_result):
-        smoke_classname = 'ClassCheckFailed'
+        smoke_class_name = 'ClassCheckFailed'
         ClassCheckFailed.run_test_cases()
         result = test_result.create_test_result()
 
         assert len(result) == 1, "not exactly 1 test scenario in test result"
         test_scenario = result[0]
 
-        classname = test_scenario.get('classname')
-        assert classname == smoke_classname
+        class_name = test_scenario.get('class_name')
+        assert class_name == smoke_class_name
 
         test_cases = test_scenario.get('test_cases')
 
