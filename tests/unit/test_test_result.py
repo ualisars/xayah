@@ -4,27 +4,27 @@ from xayah_test.classes.test_result_classes import ClassResultTestPositive, Clas
 class TestTestResult:
     def test_add_test_case_classname_and_method(self, test_result):
         classname = "xayah_class"
-        method = "xayah_method"
+        method_name = "xayah_method"
         status = "passed"
-        name = f"{classname}::{method}"
+        name = f"{classname}::{method_name}"
 
-        test_result.add_test_case(classname=classname, method=method, status=status)
+        test_result.add_test_case(classname=classname, method_name=method_name, status=status)
 
         test_case = test_result.get_test_case(name)
 
         assert test_case is not None, f"test case not found by name: {name}"
         assert test_case.get('classname') == classname
-        assert test_case.get('method') == method
+        assert test_case.get('method_name') == method_name
         assert test_case.get('status') == status
         assert test_case.get('name') == name
 
     def test_add_test_case_failed(self, test_result):
         classname = "xayah_class"
-        method = "xayah_method_failed"
+        method_name = "xayah_method_failed"
         status = "failed"
-        name = f"{classname}::{method}"
+        name = f"{classname}::{method_name}"
 
-        test_result.add_test_case(classname=classname, method=method, status=status)
+        test_result.add_test_case(classname=classname, method_name=method_name, status=status)
 
         test_case = test_result.get_test_case(name)
 
@@ -35,12 +35,12 @@ class TestTestResult:
         step_name = 'authorization'
         step_status = 'passed'
         message = "all good"
-        method = "xayah_method_step"
+        method_name = "xayah_method_step"
         category = 'step'
 
-        test_result.add_step(step_name, method, message, category, step_status)
+        test_result.add_step(step_name, method_name, message, category, step_status)
 
-        steps = test_result.get_steps(method)
+        steps = test_result.get_steps(method_name)
 
         assert len(steps) == 1, "step is not added"
 
@@ -70,11 +70,11 @@ class TestTestResult:
         test_case_classname = test_case.get('classname')
         assert test_case_classname == test_result_classname
 
-        test_case_method = test_case.get('method')
-        assert test_case_method == 'test_math_positive'
+        test_case_method_name = test_case.get('method_name')
+        assert test_case_method_name == 'test_math_positive'
 
         test_case_name = test_case.get('name')
-        assert test_case_name == f'{test_case_classname}::{test_case_method}'
+        assert test_case_name == f'{test_case_classname}::{test_case_method_name}'
 
         test_case_method = test_case.get('status')
         assert test_case_method == 'passed'

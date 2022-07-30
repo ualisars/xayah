@@ -17,7 +17,7 @@ class TestTestCase:
 
         assert test_case.get('classname') == classname
 
-        assert test_case.get('method') == method_name
+        assert test_case.get('method_name') == method_name
 
         assert test_case.get('status') == 'passed'
 
@@ -35,7 +35,7 @@ class TestTestCase:
 
         assert test_case.get('classname') == classname
 
-        assert test_case.get('method') == method_name
+        assert test_case.get('method_name') == method_name
 
         assert test_case.get('status') == 'failed'
 

@@ -37,14 +37,14 @@ class TestCaseModel(BaseModel):
     attributes:
     - name: name of the test case
     - classname: name of the parent class
-    - method: name of the test method
+    - method_name: name of the test method
     - steps: testcase steps
     - assertion_message: message shows a reason why test case failed
     - description: additional information about test case
     """
     name: str
     classname: Optional[str]
-    method: str
+    method_name: str
     status: Literal['passed', 'failed'] = 'failed'
     steps: List[StepModel] = []
     assertion_message: str = ''

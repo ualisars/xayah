@@ -101,7 +101,7 @@ class TestScenario:
             if not method_name.lower().startswith('test'):
                 continue
             try:
-                method_names.append(method.__name__)
+                method_names.append(method_name)
                 test_case = TestCase.init(method, classname)
                 test_case()
             except TypeError:

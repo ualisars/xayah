@@ -24,7 +24,7 @@ class TestCase:
             class_name = inspect.stack()[1][3]
             field = {name: value}
 
-            TestResult().add_test_case(method=method_name, classname=class_name, **field)
+            TestResult().add_test_case(method_name=method_name, classname=class_name, **field)
             return fn
         return add_field
 
@@ -68,14 +68,14 @@ class TestCase:
         """
         @wraps(fn)
         def wrapper(*args, **kwargs):
-            method = fn.__name__
+            method_name = fn.__name__
             try:
                 fn(*args, **kwargs)
-                steps = TestResult().get_steps(method)
+                steps = TestResult().get_steps(method_name)
                 status = TestCase.check_status(steps)
                 TestResult().add_test_case(
                     classname=classname,
-                    method=method,
+                    method_name=method_name,
                     status=status,
                     steps=steps
                 )
@@ -83,10 +83,10 @@ class TestCase:
             except AssertionError as AssError:
                 assertion = str(AssError).split('\n')
                 assertion_message = assertion[0]
-                steps = TestResult().get_steps(method)
+                steps = TestResult().get_steps(method_name)
                 TestResult().add_test_case(
                     classname=classname,
-                    method=method,
+                    method_name=method_name,
                     status='failed',
                     assertion_message=assertion_message,
                     steps=steps
