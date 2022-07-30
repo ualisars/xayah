@@ -18,7 +18,7 @@ class TestResult(metaclass=MetaSingleton):
     attributes:
     - test classes: list of all classes that been decorated with TestScenario
     - test cases: all test methods of particular class
-    - test result: object of classname and its methods (test cases)
+    - test result: object of class_name and its methods (test cases)
     - steps: steps of a test case
     """
     def __init__(self):
@@ -37,16 +37,16 @@ class TestResult(metaclass=MetaSingleton):
 
     def get_test_case(self, name: str) -> TestCaseModel:
         """
-        get test case by its name (classname:method)
-        :param name: test case name ({classname}::{method})
+        get test case by its name (class_name:method_name)
+        :param name: test case name ({class_name}::{method_name})
         :return: TestCaseModel
         """
         return self.test_cases.get(name)
 
     def add_test_case(self, **kwargs: str or StepModel) -> None:
-        classname = kwargs.get('classname', "")
-        method = kwargs.get('method', "")
-        test_case_name = f'{classname}::{method}'
+        class_name = kwargs.get('class_name', "")
+        method_name = kwargs.get('method_name', "")
+        test_case_name = f'{class_name}::{method_name}'
 
         test_case = self.test_cases.get(test_case_name)
 
@@ -59,16 +59,16 @@ class TestResult(metaclass=MetaSingleton):
             self.test_cases[test_case_name] = test_case.dict()
 
     def add_test_case_old(self, **kwargs: str or StepModel) -> None:
-        classname = kwargs.get('classname', "")
-        method = kwargs.get('method', "")
-        test_name = f'{classname}::{method}'
+        class_name = kwargs.get('class_name', "")
+        method_name = kwargs.get('method_name', "")
+        test_name = f'{class_name}::{method_name}'
         steps = kwargs.get('steps')
         if steps is None:
             steps = []
         data = {
             "name": test_name,
-            "classname": classname,
-            "method": method,
+            "class_name": class_name,
+            "method_name": method_name,
             "status": kwargs.get('status', ""),
             "steps": steps,
             "assertion_message": kwargs.get('assertion_message', ""),
@@ -77,9 +77,9 @@ class TestResult(metaclass=MetaSingleton):
         test_case = TestCaseModel(**data)
         self.test_cases[test_name] = test_case.dict()
 
-    def add_test_classes(self, classname: str, methods: List[str]) -> None:
+    def add_test_classes(self, class_name: str, methods: List[str]) -> None:
         data = {
-            "classname": classname,
+            "class_name": class_name,
             "method_names": methods
         }
         test_class = TestClassesModel(**data)
@@ -87,36 +87,37 @@ class TestResult(metaclass=MetaSingleton):
 
     def create_test_result(self) -> List[TestScenarioModel]:
         for test_class in self.test_classes:
-            classname = test_class.get('classname', '')
+            class_name = test_class.get('class_name', '')
             methods = []
-            for method in test_class['method_names']:
-                name = f'{classname}::{method}'
+            for method_name in test_class['method_names']:
+                name = f'{class_name}::{method_name}'
                 test_case = self.test_cases.get(name)
                 methods.append(test_case)
 
             data = {
-                "classname": classname,
+                "class_name": class_name,
                 "test_cases": methods
             }
             test_scenario = TestScenarioModel(**data)
             self.test_scenarios.append(test_scenario.dict())
             return self.test_scenarios
 
-    def add_step(self, name: str, method: str, message: str, status: str) -> None:
+    def add_step(self, name: str, method_name: str, message: str, category: str, status: str) -> None:
         data = {
             'name': name,
             'status': status,
-            'message': message
+            'message': message,
+            'category': category
         }
         step = StepModel(**data).dict()
-        if not self.steps.get(method):
+        if not self.steps.get(method_name):
             steps = [step]
-            self.steps[method] = steps
+            self.steps[method_name] = steps
         else:
-            self.steps[method].append(step)
+            self.steps[method_name].append(step)
 
-    def get_steps(self, method: str) -> List[StepModel]:
-        return self.steps.get(method, [])
+    def get_steps(self, method_name: str) -> List[StepModel]:
+        return self.steps.get(method_name, [])
 
     def clear_test_result(self) -> None:
         self.test_classes = []
