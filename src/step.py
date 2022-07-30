@@ -5,7 +5,7 @@ from .test_result import TestResult
 class Step:
     def __init__(self, name):
         self.name = name
-        self.method = inspect.stack()[1][3]
+        self.method_name = inspect.stack()[1][3]
         self.assertion_instance = AssertionError('test')
 
     def __enter__(self):
@@ -16,6 +16,18 @@ class Step:
         if exc_val:
             message = str(exc_val)
         if type(self.assertion_instance) == exc_type:
-            TestResult().add_step(name=self.name, method=self.method, message=message, status='failed')
+            TestResult().add_step(
+                name=self.name,
+                method_name=self.method_name,
+                message=message,
+                category='step',
+                status='failed'
+            )
         else:
-            TestResult().add_step(name=self.name, method=self.method, message=message, status='passed')
+            TestResult().add_step(
+                name=self.name,
+                method_name=self.method_name,
+                message=message,
+                category='step',
+                status='passed'
+            )

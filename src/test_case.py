@@ -8,7 +8,7 @@ import inspect
 class TestCase:
     """
     stores class method information
-    such as classname, method' name, status
+    such as class_name, method_name, status
     and also stores meta information: title, description and so on
     """
 
@@ -24,7 +24,7 @@ class TestCase:
             class_name = inspect.stack()[1][3]
             field = {name: value}
 
-            TestResult().add_test_case(method=method_name, classname=class_name, **field)
+            TestResult().add_test_case(method_name=method_name, class_name=class_name, **field)
             return fn
         return add_field
 
@@ -59,23 +59,23 @@ class TestCase:
         return 'passed'
 
     @staticmethod
-    def init(fn: Callable, classname: str = ""):
+    def init(fn: Callable, class_name: str = ""):
         """
         intercepts asserts in method and write
         information to test result
         :param fn: method to be decorated
-        :param classname: name of the parent class
+        :param class_name: name of the parent class
         """
         @wraps(fn)
         def wrapper(*args, **kwargs):
-            method = fn.__name__
+            method_name = fn.__name__
             try:
                 fn(*args, **kwargs)
-                steps = TestResult().get_steps(method)
+                steps = TestResult().get_steps(method_name)
                 status = TestCase.check_status(steps)
                 TestResult().add_test_case(
-                    classname=classname,
-                    method=method,
+                    class_name=class_name,
+                    method_name=method_name,
                     status=status,
                     steps=steps
                 )
@@ -83,10 +83,10 @@ class TestCase:
             except AssertionError as AssError:
                 assertion = str(AssError).split('\n')
                 assertion_message = assertion[0]
-                steps = TestResult().get_steps(method)
+                steps = TestResult().get_steps(method_name)
                 TestResult().add_test_case(
-                    classname=classname,
-                    method=method,
+                    class_name=class_name,
+                    method_name=method_name,
                     status='failed',
                     assertion_message=assertion_message,
                     steps=steps
