@@ -1,23 +1,6 @@
-from src import TestCase
+from xayah_test import CheckTestCase
+from src.test_result import TestResult
 
-
-def logger(fn):
-    def wrapper(*args, **kwargs):
-        try:
-            fn(*args, **kwargs)
-            print(f"{fn.__name__} success")
-        except AssertionError as AssError:
-            print(f"{fn.__name__} {AssError}")
-
-    return wrapper
-
-
-@TestCase.title('Add to numbers')
-@logger
-def add(a, b):
-    sum = a + b
-    assert sum == 5, "Failed"
-    return sum
-
-
-add(2, 3)
+CheckTestCase.run_test_cases()
+result = TestResult().create_test_result()
+print('result', result)

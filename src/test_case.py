@@ -11,19 +11,38 @@ class TestCase:
     such as classname, method' name, status
     and also stores meta information: title, description and so on
     """
+
+    @staticmethod
+    def __add_test_case_field(name: str, value: str):
+        """
+        add field to test case
+        :param name: field that will be added to test case, e.g title
+        :param value: value of the field
+        """
+        def add_field(fn: Callable):
+            method_name = fn.__name__
+            class_name = inspect.stack()[1][3]
+            field = {name: value}
+
+            TestResult().add_test_case(method=method_name, classname=class_name, **field)
+            return fn
+        return add_field
+
     @staticmethod
     def title(title: str) -> Callable:
         """
         Add title to test case
         :param title: test case title
         """
-        def add_title_to_test_case(fn: Callable):
-            method_name = fn.__name__
-            class_name = inspect.stack()[1][3]
+        return TestCase.__add_test_case_field('title', title)
 
-            TestResult().add_test_case(title=title, method=method_name, classname=class_name)
-            return fn
-        return add_title_to_test_case
+    @staticmethod
+    def description(description: str) -> Callable:
+        """
+        add description to test case
+        :param description: test case description
+        """
+        return TestCase.__add_test_case_field('description', description)
 
     @staticmethod
     def check_status(steps: List[StepModel] or List[Dict]) -> str:

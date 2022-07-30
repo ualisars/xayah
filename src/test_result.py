@@ -100,7 +100,6 @@ class TestResult(metaclass=MetaSingleton):
             }
             test_scenario = TestScenarioModel(**data)
             self.test_scenarios.append(test_scenario.dict())
-            print(self.test_scenarios)
             return self.test_scenarios
 
     def add_step(self, name: str, method: str, message: str, status: str) -> None:
