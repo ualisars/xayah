@@ -9,10 +9,12 @@ class StepModel(BaseModel):
     attributes:
     - name: step's title
     - status: shows whether step passed or failed
+    - category: which category step belongs to (step or check)
     - message: reason why this step is failed
     """
     name: str
     status: Literal['passed', 'failed']
+    category: Literal['step', 'check']
     message: Optional[str]
 
 

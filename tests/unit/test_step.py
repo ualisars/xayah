@@ -29,6 +29,16 @@ class TestStep:
 
         assert step1.get('status') == 'passed'
 
+        assert step1.get('category') == 'step'
+
+        step2 = steps[1]
+
+        assert step2.get('name') == 'step two'
+
+        assert step2.get('status') == 'passed'
+
+        assert step2.get('category') == 'step'
+
     "if previous step failed next step is not run"
     def test_previous_step_failed(self, test_result):
         step_classname = 'ClassStepFailed'

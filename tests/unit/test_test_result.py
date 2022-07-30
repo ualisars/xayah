@@ -36,8 +36,9 @@ class TestTestResult:
         step_status = 'passed'
         message = "all good"
         method = "xayah_method_step"
+        category = 'step'
 
-        test_result.add_step(step_name, method, message, step_status)
+        test_result.add_step(step_name, method, message, category, step_status)
 
         steps = test_result.get_steps(method)
 
@@ -48,6 +49,7 @@ class TestTestResult:
         assert step.get('name') == step_name
         assert step.get('status') == step_status
         assert step.get('message') == message
+        assert step.get('category') == category
 
     def test_create_test_result_smoke(self, test_result):
         test_result_classname = 'ClassResultTestPositive'

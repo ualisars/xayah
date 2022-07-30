@@ -16,7 +16,7 @@ class Check:
         if exc_val:
             message = str(exc_val)
         if type(self.assertion_instance) == exc_type:
-            TestResult().add_step(name=self.name, method=self.method, message=message, status='failed')
+            TestResult().add_step(name=self.name, method=self.method, message=message, category='check', status='failed')
         else:
-            TestResult().add_step(name=self.name, method=self.method, message=message, status='passed')
+            TestResult().add_step(name=self.name, method=self.method, message=message, category='check', status='passed')
         return True

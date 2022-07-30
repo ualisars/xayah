@@ -29,11 +29,15 @@ class TestCheck:
 
         assert step1.get('status') == 'passed'
 
+        assert step1.get('category') == 'check'
+
         step2 = steps[1]
 
         assert step2.get('name') == 'check 2'
 
         assert step2.get('status') == 'passed'
+
+        assert step2.get('category') == 'check'
 
     def test_previous_failed(self, test_result):
         smoke_classname = 'ClassCheckFailed'
@@ -62,14 +66,20 @@ class TestCheck:
 
         assert step1.get('status') == 'passed'
 
+        assert step1.get('category') == 'check'
+
         step2 = steps[1]
 
         assert step2.get('name') == 'check 2 failed'
 
         assert step2.get('status') == 'failed'
 
+        assert step2.get('category') == 'check'
+
         step3 = steps[2]
 
         assert step3.get('name') == 'check 3 passed'
 
         assert step3.get('status') == 'passed'
+
+        assert step3.get('category') == 'check'
