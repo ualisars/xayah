@@ -26,6 +26,20 @@ class TestCase:
         return add_title_to_test_case
 
     @staticmethod
+    def description(description: str) -> Callable:
+        """
+        add description to test case
+        :param description: test case description
+        """
+        def add_description_to_test_case(fn: Callable):
+            method_name = fn.__name__
+            class_name = inspect.stack()[1][3]
+
+            TestResult().add_test_case(description=description, method=method_name, classname=class_name)
+            return fn
+        return add_description_to_test_case
+
+    @staticmethod
     def check_status(steps: List[StepModel] or List[Dict]) -> str:
         """
         loop through all steps and if t least one step is failed so
