@@ -1,4 +1,9 @@
-from xayah_test.classes.test_case_classes import ClassTestCasePassed, ClassTestCaseFailed
+from xayah_test.classes.test_case_classes import (
+    ClassTestCasePassed,
+    ClassTestCaseFailed,
+    ClassTestCaseAssertionMessageEmpty,
+    ClassTestCaseAssertionMessage
+)
 from src.test_case import TestCase
 
 
@@ -38,6 +43,32 @@ class TestTestCase:
         assert test_case.get('method_name') == method_name
 
         assert test_case.get('status') == 'failed'
+
+    def test_assertion_message_empty(self, test_result):
+        class_name = ClassTestCaseAssertionMessageEmpty.__name__
+        test_case = TestCase.init(
+            ClassTestCaseAssertionMessageEmpty.test_test_case_assertion_message_empty,
+            class_name
+        )
+        test_case()
+        method_name = 'test_test_case_assertion_message_empty'
+        test_case_name = f'{class_name}::{method_name}'
+        test_case = test_result.get_test_case(test_case_name)
+
+        assert test_case.get('assertion_message') == ''
+
+    def test_assertion_message(self, test_result):
+        class_name = ClassTestCaseAssertionMessage.__name__
+        test_case = TestCase.init(
+            ClassTestCaseAssertionMessage.test_test_case_assertion_message,
+            class_name
+        )
+        test_case()
+        method_name = 'test_test_case_assertion_message'
+        test_case_name = f'{class_name}::{method_name}'
+        test_case = test_result.get_test_case(test_case_name)
+
+        assert test_case.get('assertion_message') == '30 is not 1'
 
     def test_check_status_passed(self):
         steps = [

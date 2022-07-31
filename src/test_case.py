@@ -59,6 +59,22 @@ class TestCase:
         return 'passed'
 
     @staticmethod
+    def _get_assertions(assertions: List[str]) -> Dict[str, str]:
+        assertion_obj = {
+            'assertion': '',
+            'assertion_message': ''
+        }
+        assertions_length = len(assertions)
+        if assertions_length == 2:
+            assertion_obj.update({'assertion_message': assertions[0]})
+        elif assertions_length == 3:
+            assertion_obj.update({
+                'assertion_message': assertions[0],
+                'assertion': assertions[1]
+            })
+        return assertion_obj
+
+    @staticmethod
     def init(fn: Callable, class_name: str = ""):
         """
         intercepts asserts in method and write
@@ -81,8 +97,10 @@ class TestCase:
                 )
                 print(f"test_case: {fn.__name__} passed")
             except AssertionError as AssError:
-                assertion = str(AssError).split('\n')
-                assertion_message = assertion[0]
+                assertions = str(AssError).split('\n')
+                assertion_msg = TestCase._get_assertions(assertions)
+                assertion_message = assertion_msg.get('assertion_message', '')
+                assertion = assertion_msg.get('assertion', '')
                 steps = TestResult().get_steps(method_name)
                 TestResult().add_test_case(
                     class_name=class_name,
