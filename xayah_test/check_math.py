@@ -1,7 +1,7 @@
-from src.test_scenario import TestScenario
+from src.test_suite import TestSuite
 
 
-@TestScenario.init
+@TestSuite.init
 class CheckMath:
     def test_addition(self):
         assert 5 == 2, "good"

@@ -4,7 +4,7 @@ from .test_result import TestResult
 from typing import Callable, Dict, List
 
 
-class TestScenario:
+class TestSuite:
     before_all_method = 'xayah_before_all'
     after_all_method = 'xayah_after_all'
 
@@ -26,18 +26,18 @@ class TestScenario:
                 f = test_class()
                 attrs = (getattr(f, name) for name in dir(f))
                 methods = [fn for fn in attrs if inspect.isfunction(fn) or inspect.ismethod(fn)]
-                teardown_methods = TestScenario.get_teardown_methods(methods)
+                teardown_methods = TestSuite.get_teardown_methods(methods)
                 if not args:
                     args = ({},)
                 for param in args:
                     class_name = test_class.__name__ + param.get('name', '')
                     setattr(test_class, 'test_param', param)
-                    before_all = teardown_methods.get(TestScenario.before_all_method)
+                    before_all = teardown_methods.get(TestSuite.before_all_method)
                     if before_all:
                         before_all()
-                    method_names = TestScenario.run_methods(class_name, methods)
+                    method_names = TestSuite.run_methods(class_name, methods)
 
-                    after_all = teardown_methods.get(TestScenario.after_all_method)
+                    after_all = teardown_methods.get(TestSuite.after_all_method)
                     if after_all:
                         after_all()
 
@@ -57,7 +57,7 @@ class TestScenario:
         :param fn: method to be decorated
         """
         def decorator():
-            fn.__name__ = TestScenario.before_all_method
+            fn.__name__ = TestSuite.before_all_method
             return fn
         return decorator()
 
@@ -69,7 +69,7 @@ class TestScenario:
         :param fn: method to be decorated
         """
         def decorator():
-            fn.__name__ = TestScenario.after_all_method
+            fn.__name__ = TestSuite.after_all_method
             return fn
         return decorator()
 
@@ -84,7 +84,7 @@ class TestScenario:
         teardown_methods = {}
         for method in methods:
             method_name = method.__name__
-            if method_name == TestScenario.before_all_method or method_name == TestScenario.after_all_method:
+            if method_name == TestSuite.before_all_method or method_name == TestSuite.after_all_method:
                 teardown_methods[method_name] = method
         return teardown_methods
 

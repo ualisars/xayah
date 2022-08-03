@@ -1,8 +1,8 @@
-from src import TestScenario
+from src import TestSuite
 from src.step import Step
 
 
-@TestScenario.init
+@TestSuite.init
 class ClassStepPassed:
     def test_with_steps(self):
         with Step('step one'):
@@ -11,7 +11,7 @@ class ClassStepPassed:
             assert 2 == 2
 
 
-@TestScenario.init
+@TestSuite.init
 class ClassStepFailed:
     def test_previous(self):
         with Step('passed step 1'):

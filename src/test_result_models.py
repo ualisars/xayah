@@ -54,7 +54,7 @@ class TestCaseModel(BaseModel):
     description: str = ''
 
 
-class TestScenarioModel(BaseModel):
+class TestSuiteModel(BaseModel):
     """
     represents all test cases been run
     attributes:
