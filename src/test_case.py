@@ -60,14 +60,26 @@ class TestCase:
 
     @staticmethod
     def _get_assertions(assertions: List[str]) -> Dict[str, str]:
+        """
+        generate object with assertion_message and assertion itself
+        :param assertions: list of string consists of assertion error substrings
+        :return: object {'assertion_message: string, assertion: string}
+        """
         assertion_obj = {
             'assertion': '',
             'assertion_message': ''
         }
         assertions_length = len(assertions)
-        if assertions_length == 2:
-            assertion_obj.update({'assertion_message': assertions[0]})
+        if assertions_length == 1:
+            assertion_obj.update({'assertion': assertions[0]})
+        elif assertions_length == 2:
+            assertion_obj.update({
+                'assertion_message': assertions[0],
+                'assertion': assertions[1]
+            })
         elif assertions_length == 3:
+            assertion_obj.update({'assertion': assertions[0]})
+        elif assertions_length == 4:
             assertion_obj.update({
                 'assertion_message': assertions[0],
                 'assertion': assertions[1]
@@ -107,6 +119,7 @@ class TestCase:
                     method_name=method_name,
                     status='failed',
                     assertion_message=assertion_message,
+                    assertion=assertion,
                     steps=steps
                 )
                 print(f"{fn.__name__} failed with message: {AssError}")

@@ -8,5 +8,4 @@ class CheckTestCase:
     @TestCase.title('test case description')
     @TestCase.description('check whether title and description been added to test case')
     def test_test_case(self):
-        with Step('check one'):
-            assert 7 == 3
+        assert 7 == 3, 'hello'
