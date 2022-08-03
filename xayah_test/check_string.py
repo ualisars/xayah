@@ -1,15 +1,15 @@
-from src.test_scenario import TestScenario
+from src.test_suite import TestSuite
 from src import Step
 from src import Check
 
 
-@TestScenario.init
+@TestSuite.init
 class CheckString:
-    @TestScenario.before_all
+    @TestSuite.before_all
     def set_up(self):
         print('Set Up')
 
-    @TestScenario.after_all
+    @TestSuite.after_all
     def clear(self):
         print('close connection')
 

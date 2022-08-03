@@ -1,13 +1,13 @@
-from src import TestScenario
+from src import TestSuite
 
 
-@TestScenario.init
+@TestSuite.init
 class ClassResultTestPositive:
     def test_math_positive(self):
         assert 5 == 3 + 2
 
 
-@TestScenario.init
+@TestSuite.init
 class ClassTestResultFailed:
     def test_math_failed(self):
         assert 5 == 4, "4 is not 5"

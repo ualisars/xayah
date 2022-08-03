@@ -1,22 +1,22 @@
-from src.test_scenario import TestScenario
+from src.test_suite import TestSuite
 
 
-@TestScenario.init
-class ClassTestCaseAndScenarioAssertionEmptyPassed:
+@TestSuite.init
+class ClassTestCaseAndTestSuiteAssertionEmptyPassed:
     @staticmethod
     def test_empty_assertion_message_passed():
         assert 2 == 2
 
 
-@TestScenario.init
-class ClassTestCaseAndScenarioAssertionEmptyFailed:
+@TestSuite.init
+class ClassTestCaseAndTestSuiteAssertionEmptyFailed:
     @staticmethod
     def test_empty_assertion_message_failed():
         assert 10 == 2
 
 
-@TestScenario.init
-class ClassTestCaseAndScenarioAssertion:
+@TestSuite.init
+class ClassTestCaseAndTestSuiteAssertion:
     @staticmethod
     def test_assertion_message():
         assert 1 == 20, "this is assertion message"
