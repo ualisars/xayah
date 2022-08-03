@@ -1,4 +1,9 @@
-from xayah_test.classes.test_case_classes import ClassTestCasePassed, ClassTestCaseFailed
+from xayah_test.classes.test_case_classes import (
+    ClassTestCasePassed,
+    ClassTestCaseFailed,
+    ClassTestCaseAssertionMessageEmpty,
+    ClassTestCaseAssertionMessage
+)
 from src.test_case import TestCase
 
 
@@ -39,6 +44,34 @@ class TestTestCase:
 
         assert test_case.get('status') == 'failed'
 
+    def test_assertion_message_empty(self, test_result):
+        class_name = ClassTestCaseAssertionMessageEmpty.__name__
+        test_case = TestCase.init(
+            ClassTestCaseAssertionMessageEmpty.test_test_case_assertion_message_empty,
+            class_name
+        )
+        test_case()
+        method_name = 'test_test_case_assertion_message_empty'
+        test_case_name = f'{class_name}::{method_name}'
+        test_case = test_result.get_test_case(test_case_name)
+
+        assertion_message = test_case.get('assertion_message')
+
+        assert assertion_message == ''
+
+    def test_assertion_message(self, test_result):
+        class_name = ClassTestCaseAssertionMessage.__name__
+        test_case = TestCase.init(
+            ClassTestCaseAssertionMessage.test_test_case_assertion_message,
+            class_name
+        )
+        test_case()
+        method_name = 'test_test_case_assertion_message'
+        test_case_name = f'{class_name}::{method_name}'
+        test_case = test_result.get_test_case(test_case_name)
+
+        assert test_case.get('assertion_message') == '30 is not 1'
+
     def test_check_status_passed(self):
         steps = [
             {'name': 'step1', 'status': 'passed', 'message': ''},
@@ -55,3 +88,37 @@ class TestTestCase:
         ]
         status = TestCase.check_status(steps)
         assert status == 'failed'
+
+    def test_get_assertions_one_string(self):
+        assertion = 'assert 5 == 2'
+        assertions = [assertion]
+        assertion_obj = TestCase._get_assertions(assertions)
+
+        assert assertion_obj.get('assertion_message') == ''
+        assert assertion_obj.get('assertion') == assertion
+
+    def test_get_assertions_two_strings(self):
+        assertion = 'assert 5 == 2'
+        assertion_message = '5 is not 2'
+        assertions = [assertion_message, assertion]
+        assertion_obj = TestCase._get_assertions(assertions)
+
+        assert assertion_obj.get('assertion_message') == assertion_message
+        assert assertion_obj.get('assertion') == assertion
+
+    def test_get_assertions_three_strings(self):
+        assertion = 'assert 5 == 2'
+        assertions = [assertion, '5', '2']
+        assertion_obj = TestCase._get_assertions(assertions)
+
+        assert assertion_obj.get('assertion_message') == ''
+        assert assertion_obj.get('assertion') == assertion
+
+    def test_get_assertions_four_strings(self):
+        assertion = 'assert 5 == 2'
+        assertion_message = '5 is not 2'
+        assertions = [assertion_message, assertion, '5', '2']
+        assertion_obj = TestCase._get_assertions(assertions)
+
+        assert assertion_obj.get('assertion_message') == assertion_message
+        assert assertion_obj.get('assertion') == assertion

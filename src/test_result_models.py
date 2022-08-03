@@ -40,6 +40,7 @@ class TestCaseModel(BaseModel):
     - method_name: name of the test method
     - steps: testcase steps
     - assertion_message: message shows a reason why test case failed
+    - assertion: assertion itself e.g. assert name == 'Jon Snow'
     - description: additional information about test case
     """
     name: str
@@ -48,6 +49,7 @@ class TestCaseModel(BaseModel):
     status: Literal['passed', 'failed'] = 'failed'
     steps: List[StepModel] = []
     assertion_message: str = ''
+    assertion: str = ''
     title: str = ''
     description: str = ''
 
