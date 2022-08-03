@@ -1,8 +1,8 @@
-from src import TestScenario
+from src import TestSuite
 from src.check import Check
 
 
-@TestScenario.init
+@TestSuite.init
 class ClassCheckPassed:
     def test_with_checks(self):
         with Check('check 1'):
@@ -11,7 +11,7 @@ class ClassCheckPassed:
             assert 2 == 2
 
 
-@TestScenario.init
+@TestSuite.init
 class ClassCheckFailed:
     def test_previous_failed(self):
         with Check('check 1 passed'):

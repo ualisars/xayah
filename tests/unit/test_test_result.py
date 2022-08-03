@@ -56,14 +56,14 @@ class TestTestResult:
         ClassResultTestPositive.run_test_cases()
         result = test_result.create_test_result()
 
-        assert len(result) == 1, "not exactly 1 test scenario in test result"
-        test_scenario = result[0]
+        assert len(result) == 1, "not exactly 1 test suite in test result"
+        test_suite = result[0]
 
-        class_name = test_scenario.get('class_name')
+        class_name = test_suite.get('class_name')
         assert class_name == test_result_class_name
 
-        test_cases = test_scenario.get('test_cases')
-        assert len(test_cases) == 1, "not exactly 1 test cases in test scenario"
+        test_cases = test_suite.get('test_cases')
+        assert len(test_cases) == 1, "not exactly 1 test cases in test suite"
 
         test_case = test_cases[0]
 
@@ -83,14 +83,14 @@ class TestTestResult:
         ClassTestResultFailed.run_test_cases()
         result = test_result.create_test_result()
 
-        assert len(result) == 1, "not exactly 1 test scenario in test result"
-        test_scenario = result[0]
+        assert len(result) == 1, "not exactly 1 test suite in test result"
+        test_suite = result[0]
 
-        class_name = test_scenario.get('class_name')
+        class_name = test_suite.get('class_name')
         assert class_name == 'ClassTestResultFailed'
 
-        test_cases = test_scenario.get('test_cases')
-        assert len(test_cases) == 1, "not exactly 1 test cases in test scenario"
+        test_cases = test_suite.get('test_cases')
+        assert len(test_cases) == 1, "not exactly 1 test cases in test suite"
 
         test_case = test_cases[0]
 

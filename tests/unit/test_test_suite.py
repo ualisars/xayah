@@ -1,8 +1,8 @@
-from src import TestScenario
+from src import TestSuite
 
 
-class TestTestScenario:
-    @TestScenario.init
+class TestTestSuite:
+    @TestSuite.init
     class RunTestCases:
         def __init__(self):
             self.values = []
@@ -13,11 +13,11 @@ class TestTestScenario:
         def test_append_2(self):
             self.values.append(2)
 
-    @TestScenario.init
+    @TestSuite.init
     class TestClass:
         default_string = ""
 
-        @TestScenario.before_all
+        @TestSuite.before_all
         def set_default_string(self):
             self.default_string = "xayah"
 

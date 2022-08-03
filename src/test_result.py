@@ -1,4 +1,4 @@
-from .test_result_models import TestCaseModel, TestScenarioModel, StepModel, TestClassesModel
+from .test_result_models import TestCaseModel, TestSuiteModel, StepModel, TestClassesModel
 from typing import List
 
 
@@ -18,20 +18,20 @@ class TestResult(metaclass=MetaSingleton):
     attributes:
     - test classes: list of all classes that been decorated with TestScenario
     - test cases: all test methods of particular class
-    - test result: object of class_name and its methods (test cases)
+    - test suites: object of class_name and its methods (test cases)
     - steps: steps of a test case
     """
     def __init__(self):
         self.test_classes = []
         self.test_cases = {}
-        self.test_scenarios = []
+        self.test_suites = []
         self.steps = {}
 
     def __repr__(self):
         return f'''
             test_classes: {self.test_classes}\n 
             test_cases: {self.test_cases}\n 
-            test_scenarios: {self.test_scenarios}\n 
+            test_suites: {self.test_suites}\n 
             steps: {self.steps}
         '''
 
@@ -85,7 +85,7 @@ class TestResult(metaclass=MetaSingleton):
         test_class = TestClassesModel(**data)
         self.test_classes.append(test_class.dict())
 
-    def create_test_result(self) -> List[TestScenarioModel]:
+    def create_test_result(self) -> List[TestSuiteModel]:
         for test_class in self.test_classes:
             class_name = test_class.get('class_name', '')
             methods = []
@@ -98,9 +98,9 @@ class TestResult(metaclass=MetaSingleton):
                 "class_name": class_name,
                 "test_cases": methods
             }
-            test_scenario = TestScenarioModel(**data)
-            self.test_scenarios.append(test_scenario.dict())
-            return self.test_scenarios
+            test_suite = TestSuiteModel(**data)
+            self.test_suites.append(test_suite.dict())
+            return self.test_suites
 
     def add_step(self, name: str, method_name: str, message: str, category: str, status: str) -> None:
         data = {
@@ -122,5 +122,5 @@ class TestResult(metaclass=MetaSingleton):
     def clear_test_result(self) -> None:
         self.test_classes = []
         self.test_cases = {}
-        self.test_scenarios = []
+        self.test_suites = []
         self.steps = {}
