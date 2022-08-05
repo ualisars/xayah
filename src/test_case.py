@@ -70,8 +70,10 @@ class TestCase:
             'assertion_message': ''
         }
         assertions_length = len(assertions)
-        if assertions_length == 1:
+        if assertions_length == 1 and 'assert' in assertions[0]:
             assertion_obj.update({'assertion': assertions[0]})
+        elif assertions_length == 1:
+            assertion_obj.update({'assertion_message': assertions[0]})
         elif assertions_length == 2:
             assertion_obj.update({
                 'assertion_message': assertions[0],
