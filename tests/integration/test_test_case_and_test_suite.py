@@ -1,7 +1,10 @@
+from pytest import mark
 from xayah_test.classes.test_case_and_test_suite_classes import (
     ClassTestCaseAndTestSuiteAssertionEmptyPassed,
     ClassTestCaseAndTestSuiteAssertionEmptyFailed,
-    ClassTestCaseAndTestSuiteAssertion
+    ClassTestCaseAndTestSuiteAssertion,
+    ClassTestCaseAndTestSuiteExecutionTimePassed,
+    ClassTestCaseAndTestSuiteExecutionTimeFailed
 )
 
 
@@ -69,3 +72,24 @@ class TestTestCaseAndTestTestSuite:
         test_case = test_cases[0]
 
         assert test_case.get('assertion_message') == 'this is assertion message'
+
+    @mark.parametrize('TestClass', (
+        ClassTestCaseAndTestSuiteExecutionTimePassed,
+        ClassTestCaseAndTestSuiteExecutionTimeFailed
+    ))
+    def test_execution_time(self, TestClass, test_result):
+        TestClass.run_test_cases()
+        result = test_result.create_test_result()
+        test_suite = result[0]
+        test_cases = test_suite.get('test_cases')
+        test_case = test_cases[0]
+
+        start_time = test_case.get('start_time')
+        end_time = test_case.get('end_time')
+        execution_time = test_case.get('execution_time')
+
+        assert start_time != 0.0, 'start time cannot be 0.0, cause its default value'
+        assert end_time != 0.0, 'end time cannot be 0.0, cause its default value'
+        assert start_time != end_time, 'start and end time cannot be equal'
+        assert execution_time != 0.0, 'execution_time cannot be 0.0, cause its default value'
+        assert end_time > start_time
