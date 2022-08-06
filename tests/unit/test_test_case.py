@@ -2,9 +2,12 @@ from xayah_test.classes.test_case_classes import (
     ClassTestCasePassed,
     ClassTestCaseFailed,
     ClassTestCaseAssertionMessageEmpty,
-    ClassTestCaseAssertionMessage
+    ClassTestCaseAssertionMessage,
+    ClassTestCaseExecutionTimePassed,
+    ClassTestCaseExecutionTimeFailed
 )
 from src.test_case import TestCase
+from pytest import mark
 
 
 class TestTestCase:
@@ -122,3 +125,24 @@ class TestTestCase:
 
         assert assertion_obj.get('assertion_message') == assertion_message
         assert assertion_obj.get('assertion') == assertion
+
+    @mark.parametrize('TestClass', (ClassTestCaseExecutionTimePassed, ClassTestCaseExecutionTimeFailed))
+    def test_execution_time_passed(self, TestClass, test_result):
+        class_name = TestClass.__name__
+        test_case = TestCase.init(
+            TestClass.test_execution_time,
+            class_name
+        )
+        test_case()
+        method_name = 'test_execution_time'
+        test_case_name = f'{class_name}::{method_name}'
+        test_case = test_result.get_test_case(test_case_name)
+
+        start_time = test_case.get('start_time')
+        end_time = test_case.get('end_time')
+        execution_time = test_case.get('execution_time')
+
+        assert start_time != 0.0, 'start time cannot be 0.0, cause its default value'
+        assert end_time != 0.0, 'end time cannot be 0.0, cause its default value'
+        assert execution_time != 0.0, 'execution_time cannot be 0.0, cause its default value'
+        assert end_time > start_time

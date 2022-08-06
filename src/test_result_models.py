@@ -51,6 +51,9 @@ class TestCaseModel(BaseModel):
     assertion_message: str = ''
     assertion: str = ''
     title: str = ''
+    start_time: float = 0.0
+    end_time: float = 0.0
+    execution_time: float = 0.0
     description: str = ''
 
 
