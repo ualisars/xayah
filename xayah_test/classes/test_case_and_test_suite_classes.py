@@ -20,3 +20,17 @@ class ClassTestCaseAndTestSuiteAssertion:
     @staticmethod
     def test_assertion_message():
         assert 1 == 20, "this is assertion message"
+
+
+@TestSuite.init
+class ClassTestCaseAndTestSuiteExecutionTimePassed:
+    @staticmethod
+    def test_assertion_message():
+        assert 20 == 20
+
+
+@TestSuite.init
+class ClassTestCaseAndTestSuiteExecutionTimeFailed:
+    @staticmethod
+    def test_assertion_message():
+        assert 1 == 20, "this is assertion message"

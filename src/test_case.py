@@ -2,6 +2,7 @@ from functools import wraps
 from .test_result import TestResult
 from typing import Callable, List, Dict
 from .test_result import StepModel
+import time
 import inspect
 
 
@@ -70,8 +71,10 @@ class TestCase:
             'assertion_message': ''
         }
         assertions_length = len(assertions)
-        if assertions_length == 1:
+        if assertions_length == 1 and 'assert' in assertions[0]:
             assertion_obj.update({'assertion': assertions[0]})
+        elif assertions_length == 1:
+            assertion_obj.update({'assertion_message': assertions[0]})
         elif assertions_length == 2:
             assertion_obj.update({
                 'assertion_message': assertions[0],
@@ -97,18 +100,29 @@ class TestCase:
         @wraps(fn)
         def wrapper(*args, **kwargs):
             method_name = fn.__name__
+            start_time = 0.0
             try:
+                # execute function and measure execution time
+                start_time = time.time() * 1000
                 fn(*args, **kwargs)
+                end_time = time.time() * 1000
+                execution_time = end_time - start_time
+
                 steps = TestResult().get_steps(method_name)
                 status = TestCase.check_status(steps)
                 TestResult().add_test_case(
                     class_name=class_name,
                     method_name=method_name,
                     status=status,
-                    steps=steps
+                    steps=steps,
+                    start_time=start_time,
+                    end_time=end_time,
+                    execution_time=execution_time
                 )
                 print(f"test_case: {fn.__name__} passed")
             except AssertionError as AssError:
+                end_time = time.time() * 1000
+                execution_time = end_time - start_time
                 assertions = str(AssError).split('\n')
                 assertion_msg = TestCase._get_assertions(assertions)
                 assertion_message = assertion_msg.get('assertion_message', '')
@@ -120,7 +134,10 @@ class TestCase:
                     status='failed',
                     assertion_message=assertion_message,
                     assertion=assertion,
-                    steps=steps
+                    steps=steps,
+                    start_time=start_time,
+                    end_time=end_time,
+                    execution_time=execution_time
                 )
                 print(f"{fn.__name__} failed with message: {AssError}")
 
