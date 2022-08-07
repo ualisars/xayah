@@ -38,7 +38,13 @@ class TestTestResult:
         method_name = "xayah_method_step"
         category = 'step'
 
-        test_result.add_step(step_name, method_name, message, category, step_status)
+        test_result.add_step(
+            name=step_name,
+            method_name=method_name,
+            message=message,
+            category=category,
+            status=step_status
+        )
 
         steps = test_result.get_steps(method_name)
 

@@ -103,10 +103,10 @@ class TestCase:
             start_time = 0.0
             try:
                 # execute function and measure execution time
-                start_time = time.time() * 1000
+                start_time = time.time()
                 fn(*args, **kwargs)
-                end_time = time.time() * 1000
-                execution_time = end_time - start_time
+                end_time = time.time()
+                execution_time = (end_time - start_time) * 1000
 
                 steps = TestResult().get_steps(method_name)
                 status = TestCase.check_status(steps)
@@ -121,8 +121,8 @@ class TestCase:
                 )
                 print(f"test_case: {fn.__name__} passed")
             except AssertionError as AssError:
-                end_time = time.time() * 1000
-                execution_time = end_time - start_time
+                end_time = time.time()
+                execution_time = (end_time - start_time) * 1000
                 assertions = str(AssError).split('\n')
                 assertion_msg = TestCase._get_assertions(assertions)
                 assertion_message = assertion_msg.get('assertion_message', '')
