@@ -11,11 +11,17 @@ class StepModel(BaseModel):
     - status: shows whether step passed or failed
     - category: which category step belongs to (step or check)
     - message: reason why this step is failed
+    - start_time: start of the step in seconds since the Epoch
+    - end_time: end of the step in seconds since the Epoch
+    - execution_time: time required to execute step in milliseconds
     """
     name: str
     status: Literal['passed', 'failed']
     category: Literal['step', 'check']
     message: Optional[str]
+    start_time: float = 0.0
+    end_time: float = 0.0
+    execution_time: float = 0.0
 
 
 class TestClassesModel(BaseModel):

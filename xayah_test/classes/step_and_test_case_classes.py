@@ -18,3 +18,19 @@ class ClassStepAndTestCaseFailed:
             assert 1 == 1
         with Step('failed step 2'):
             assert 2 == 200
+
+
+@TestSuite.init
+class ClassStepAndTestCaseExecutionTime1Step:
+    def test_execution_time(self):
+        with Step('passed step'):
+            assert 1 == 1
+
+
+@TestSuite.init
+class ClassStepAndTestCaseExecutionTime2Steps:
+    def test_execution_time(self):
+        with Step('step 1'):
+            assert 1 == 1
+        with Step('step 2'):
+            assert 3 == 2

@@ -1,5 +1,6 @@
 import inspect
 from .test_result import TestResult
+import time
 
 
 class Step:
@@ -7,11 +8,17 @@ class Step:
         self.name = name
         self.method_name = inspect.stack()[1][3]
         self.assertion_instance = AssertionError('test')
+        self.start_time = 0.0
+        self.end_time = 0.0
+        self.execution_time = 0.0
 
     def __enter__(self):
+        self.start_time = time.time()
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
+        self.end_time = time.time()
+        self.execution_time = (self.end_time - self.start_time) * 1000
         message = ''
         if exc_val:
             message = str(exc_val)
@@ -21,7 +28,10 @@ class Step:
                 method_name=self.method_name,
                 message=message,
                 category='step',
-                status='failed'
+                status='failed',
+                start_time=self.start_time,
+                end_time=self.end_time,
+                execution_time=self.execution_time
             )
         else:
             TestResult().add_step(
@@ -29,5 +39,8 @@ class Step:
                 method_name=self.method_name,
                 message=message,
                 category='step',
-                status='passed'
+                status='passed',
+                start_time=self.start_time,
+                end_time=self.end_time,
+                execution_time=self.execution_time
             )

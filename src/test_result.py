@@ -102,14 +102,9 @@ class TestResult(metaclass=MetaSingleton):
             self.test_suites.append(test_suite.dict())
             return self.test_suites
 
-    def add_step(self, name: str, method_name: str, message: str, category: str, status: str) -> None:
-        data = {
-            'name': name,
-            'status': status,
-            'message': message,
-            'category': category
-        }
-        step = StepModel(**data).dict()
+    def add_step(self, **kwargs) -> None:
+        method_name = kwargs.get('method_name', '')
+        step = StepModel(**kwargs).dict()
         if not self.steps.get(method_name):
             steps = [step]
             self.steps[method_name] = steps
