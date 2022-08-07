@@ -92,4 +92,5 @@ class TestTestCaseAndTestTestSuite:
         assert end_time != 0.0, 'end time cannot be 0.0, cause its default value'
         assert start_time != end_time, 'start and end time cannot be equal'
         assert execution_time != 0.0, 'execution_time cannot be 0.0, cause its default value'
+        assert (end_time - start_time) * 1000 == execution_time, 'execution time not in milliseconds'
         assert end_time > start_time

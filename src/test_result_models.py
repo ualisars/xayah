@@ -47,7 +47,11 @@ class TestCaseModel(BaseModel):
     - steps: testcase steps
     - assertion_message: message shows a reason why test case failed
     - assertion: assertion itself e.g. assert name == 'Jon Snow'
+    - title: test case title
     - description: additional information about test case
+    - start_time: start of the test case in seconds since the Epoch
+    - end_time: end of the test case in seconds since the Epoch
+    - execution_time: time required to execute test case in milliseconds
     """
     name: str
     class_name: Optional[str]
@@ -57,10 +61,10 @@ class TestCaseModel(BaseModel):
     assertion_message: str = ''
     assertion: str = ''
     title: str = ''
+    description: str = ''
     start_time: float = 0.0
     end_time: float = 0.0
     execution_time: float = 0.0
-    description: str = ''
 
 
 class TestSuiteModel(BaseModel):
