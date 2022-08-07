@@ -27,3 +27,19 @@ class ClassAtLeastOneCheckAndTestCaseFailed:
             assert 2 == 4
         with Check('passed check'):
             assert 3 == 3
+
+
+@TestSuite.init
+class ClassCheckAndTestCaseExecutionTime:
+    def test_execution_time(self):
+        with Check('passed check 1'):
+            assert 1 == 1
+
+
+@TestSuite.init
+class ClassCheckAndTestCaseExecutionTime2Checks:
+    def test_execution_time(self):
+        with Check('failed check 1'):
+            assert 1 == 4
+        with Check('failed check 2'):
+            assert 10 == 2
