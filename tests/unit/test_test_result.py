@@ -63,7 +63,7 @@ class TestTestResult:
         result = test_result.create_test_result()
 
         assert len(result) == 1, "not exactly 1 test suite in test result"
-        test_suite = result[0]
+        test_suite = result.get(test_result_class_name)
 
         class_name = test_suite.get('class_name')
         assert class_name == test_result_class_name
@@ -90,7 +90,7 @@ class TestTestResult:
         result = test_result.create_test_result()
 
         assert len(result) == 1, "not exactly 1 test suite in test result"
-        test_suite = result[0]
+        test_suite = result.get(ClassTestResultFailed.__name__)
 
         class_name = test_suite.get('class_name')
         assert class_name == 'ClassTestResultFailed'

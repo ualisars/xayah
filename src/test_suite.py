@@ -108,3 +108,11 @@ class TestSuite:
                 # Can't handle methods with required arguments.
                 pass
         return method_names
+
+    @staticmethod
+    def title(title: str) -> Callable:
+        def add_title(cls: type) -> type:
+            class_name = cls.__name__
+            TestResult().add_test_suite(class_name=class_name, title=title)
+            return cls
+        return add_title

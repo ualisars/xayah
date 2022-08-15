@@ -72,7 +72,9 @@ class TestSuiteModel(BaseModel):
     represents all test cases been run
     attributes:
     - class_name: name of the run class
+    - title: title of the test suite
     - test_cases: methods of the class with test prefix
     """
     class_name: str
-    test_cases: List[TestCaseModel]
+    title: str = ''
+    test_cases: Optional[List[TestCaseModel]]
