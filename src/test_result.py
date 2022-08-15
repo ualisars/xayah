@@ -1,5 +1,5 @@
 from .test_result_models import TestCaseModel, TestSuiteModel, StepModel, TestClassesModel
-from typing import List
+from typing import List, Dict
 
 
 class MetaSingleton(type):
@@ -24,7 +24,7 @@ class TestResult(metaclass=MetaSingleton):
     def __init__(self):
         self.test_classes = []
         self.test_cases = {}
-        self.test_suites = []
+        self.test_suites = {}
         self.steps = {}
 
     def __repr__(self):
@@ -77,6 +77,16 @@ class TestResult(metaclass=MetaSingleton):
         test_case = TestCaseModel(**data)
         self.test_cases[test_name] = test_case.dict()
 
+    def add_test_suite(self, **kwargs):
+        class_name = kwargs.get('class_name', '')
+        test_suite = self.test_suites.get(class_name)
+
+        if test_suite:
+            test_suite.update(**kwargs)
+        else:
+            test_suite = TestSuiteModel(**kwargs)
+            self.test_suites[class_name] = test_suite.dict()
+
     def add_test_classes(self, class_name: str, methods: List[str]) -> None:
         data = {
             "class_name": class_name,
@@ -85,7 +95,7 @@ class TestResult(metaclass=MetaSingleton):
         test_class = TestClassesModel(**data)
         self.test_classes.append(test_class.dict())
 
-    def create_test_result(self) -> List[TestSuiteModel]:
+    def create_test_result(self) -> Dict[str, TestSuiteModel]:
         for test_class in self.test_classes:
             class_name = test_class.get('class_name', '')
             methods = []
@@ -98,9 +108,9 @@ class TestResult(metaclass=MetaSingleton):
                 "class_name": class_name,
                 "test_cases": methods
             }
-            test_suite = TestSuiteModel(**data)
-            self.test_suites.append(test_suite.dict())
-            return self.test_suites
+            self.add_test_suite(**data)
+
+        return self.test_suites
 
     def add_step(self, **kwargs) -> None:
         method_name = kwargs.get('method_name', '')
@@ -117,5 +127,5 @@ class TestResult(metaclass=MetaSingleton):
     def clear_test_result(self) -> None:
         self.test_classes = []
         self.test_cases = {}
-        self.test_suites = []
+        self.test_suites = {}
         self.steps = {}

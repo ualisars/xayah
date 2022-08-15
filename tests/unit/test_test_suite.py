@@ -31,3 +31,7 @@ class TestTestSuite:
     def test_run_test_cases(self):
         self.RunTestCases.run_test_cases()
         assert 1 == 1
+
+    def test_title(self, test_suite_title_result):
+        title = test_suite_title_result.get('title', '')
+        assert title == 'Проверка заголовка тест кейса'

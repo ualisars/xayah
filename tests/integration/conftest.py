@@ -12,7 +12,8 @@ def title_result(test_result):
             assert 1 == 1
 
     ClassTestCaseAndTestSuiteTitle.run_test_cases()
-    return test_result.create_test_result()
+    result = test_result.create_test_result()
+    return result.get(ClassTestCaseAndTestSuiteTitle.__name__)
 
 
 @fixture(scope='function')
@@ -24,7 +25,8 @@ def description_result_passed(test_result):
             assert 1 == 1
 
     ClassTestCaseAndTestSuiteDescriptionPassed.run_test_cases()
-    return test_result.create_test_result()
+    result = test_result.create_test_result()
+    return result.get(ClassTestCaseAndTestSuiteDescriptionPassed.__name__)
 
 
 @fixture(scope='function')
@@ -36,7 +38,8 @@ def description_result_failed(test_result):
             assert 1 == 2
 
     ClassTestCaseAndTestSuiteDescriptionFailed.run_test_cases()
-    return test_result.create_test_result()
+    result = test_result.create_test_result()
+    return result.get(ClassTestCaseAndTestSuiteDescriptionFailed.__name__)
 
 
 @fixture(scope='function')
@@ -49,7 +52,8 @@ def title_and_description_result(test_result):
             assert 1 == 2
 
     ClassTestCaseAndTestSuiteTitleDescription.run_test_cases()
-    return test_result.create_test_result()
+    result = test_result.create_test_result()
+    return result.get(ClassTestCaseAndTestSuiteTitleDescription.__name__)
 
 
 @fixture(scope='function')
@@ -62,4 +66,5 @@ def description_and_title_result(test_result):
             assert 1 == 2
 
     ClassTestCaseAndTestSuiteDescriptionTitle.run_test_cases()
-    return test_result.create_test_result()
+    result = test_result.create_test_result()
+    return result.get(ClassTestCaseAndTestSuiteDescriptionTitle.__name__)

@@ -13,8 +13,8 @@ class TestStepAndTestCase:
         ClassStepAndTestCasePassed.run_test_cases()
         result = test_result.create_test_result()
 
-        test_scenario = result[0]
-        test_cases = test_scenario.get('test_cases')
+        test_suite = result.get(ClassStepAndTestCasePassed.__name__)
+        test_cases = test_suite.get('test_cases')
         test_case = test_cases[0]
         steps = test_case.get('steps')
 
@@ -35,8 +35,8 @@ class TestStepAndTestCase:
         ClassStepAndTestCaseFailed.run_test_cases()
         result = test_result.create_test_result()
 
-        test_scenario = result[0]
-        test_cases = test_scenario.get('test_cases')
+        test_suite = result.get(ClassStepAndTestCaseFailed.__name__)
+        test_cases = test_suite.get('test_cases')
         test_case = test_cases[0]
         steps = test_case.get('steps')
 
@@ -56,8 +56,8 @@ class TestStepAndTestCase:
         ClassStepAndTestCaseExecutionTime1Step.run_test_cases()
         result = test_result.create_test_result()
 
-        test_scenario = result[0]
-        test_cases = test_scenario.get('test_cases')
+        test_suite = result.get(ClassStepAndTestCaseExecutionTime1Step.__name__)
+        test_cases = test_suite.get('test_cases')
         test_case = test_cases[0]
 
         steps = test_case.get('steps')
@@ -81,8 +81,8 @@ class TestStepAndTestCase:
         ClassStepAndTestCaseExecutionTime2Steps.run_test_cases()
         result = test_result.create_test_result()
 
-        test_scenario = result[0]
-        test_cases = test_scenario.get('test_cases')
+        test_suite = result.get(ClassStepAndTestCaseExecutionTime2Steps.__name__)
+        test_cases = test_suite.get('test_cases')
         test_case = test_cases[0]
 
         steps = test_case.get('steps')

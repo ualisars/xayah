@@ -14,8 +14,8 @@ class TestCheckAndTestCase:
         ClassChecksAndTestCasePassed.run_test_cases()
         result = test_result.create_test_result()
 
-        test_scenario = result[0]
-        test_cases = test_scenario.get('test_cases')
+        test_suite = result.get(ClassChecksAndTestCasePassed.__name__)
+        test_cases = test_suite.get('test_cases')
         test_case = test_cases[0]
         steps = test_case.get('steps')
 
@@ -36,7 +36,7 @@ class TestCheckAndTestCase:
         ClassCheckAndTestCaseFailed.run_test_cases()
         result = test_result.create_test_result()
 
-        test_scenario = result[0]
+        test_scenario = result.get(ClassCheckAndTestCaseFailed.__name__)
         test_cases = test_scenario.get('test_cases')
         test_case = test_cases[0]
         steps = test_case.get('steps')
@@ -54,7 +54,7 @@ class TestCheckAndTestCase:
         ClassAtLeastOneCheckAndTestCaseFailed.run_test_cases()
         result = test_result.create_test_result()
 
-        test_scenario = result[0]
+        test_scenario = result.get(ClassAtLeastOneCheckAndTestCaseFailed.__name__)
         test_cases = test_scenario.get('test_cases')
         test_case = test_cases[0]
         steps = test_case.get('steps')
@@ -76,7 +76,7 @@ class TestCheckAndTestCase:
         ClassCheckAndTestCaseExecutionTime.run_test_cases()
         result = test_result.create_test_result()
 
-        test_scenario = result[0]
+        test_scenario = result.get(ClassCheckAndTestCaseExecutionTime.__name__)
         test_cases = test_scenario.get('test_cases')
         test_case = test_cases[0]
 
@@ -101,7 +101,7 @@ class TestCheckAndTestCase:
         ClassCheckAndTestCaseExecutionTime2Checks.run_test_cases()
         result = test_result.create_test_result()
 
-        test_scenario = result[0]
+        test_scenario = result.get(ClassCheckAndTestCaseExecutionTime2Checks.__name__)
         test_cases = test_scenario.get('test_cases')
         test_case = test_cases[0]
 
