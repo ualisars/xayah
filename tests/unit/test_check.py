@@ -7,13 +7,13 @@ class TestCheck:
         ClassCheckPassed.run_test_cases()
         result = test_result.create_test_result()
 
-        assert len(result) == 1, "not exactly 1 test scenario in test result"
-        test_scenario = result[0]
+        assert len(result.keys()) == 1, "not exactly 1 test suite in test result"
+        test_suite = result.get(passed_class_name)
 
-        class_name = test_scenario.get('class_name')
+        class_name = test_suite.get('class_name')
         assert class_name == passed_class_name
 
-        test_cases = test_scenario.get('test_cases')
+        test_cases = test_suite.get('test_cases')
 
         assert len(test_cases) == 1, 'not exactly 1 test case in test scenario'
 
@@ -45,12 +45,12 @@ class TestCheck:
         result = test_result.create_test_result()
 
         assert len(result) == 1, "not exactly 1 test scenario in test result"
-        test_scenario = result[0]
+        test_suite = result.get(smoke_class_name)
 
-        class_name = test_scenario.get('class_name')
+        class_name = test_suite.get('class_name')
         assert class_name == smoke_class_name
 
-        test_cases = test_scenario.get('test_cases')
+        test_cases = test_suite.get('test_cases')
 
         assert len(test_cases) == 1, 'not exactly 1 test case in test scenario'
 
