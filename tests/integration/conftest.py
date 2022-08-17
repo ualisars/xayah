@@ -86,19 +86,6 @@ def severity_level_blocker(test_result):
 
 
 @fixture(scope='function')
-def severity_level_blocker(test_result):
-    @TestSuite.init
-    class ClassTestCaseAndTestSuiteSeverityBlocker:
-        @TestCase.severity(SeverityLevel.BLOCKER)
-        def test_severity(self):
-            assert 2 == 2
-
-    ClassTestCaseAndTestSuiteSeverityBlocker.run_test_cases()
-    result = test_result.create_test_result()
-    return result.get(ClassTestCaseAndTestSuiteSeverityBlocker.__name__)
-
-
-@fixture(scope='function')
 def severity_level_critical(test_result):
     @TestSuite.init
     class ClassTestCaseAndTestSuiteSeverityCritical:
