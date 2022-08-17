@@ -89,3 +89,36 @@ class TestTestCaseAndTestTestSuite:
         assert execution_time != 0.0, 'execution_time cannot be 0.0, cause its default value'
         assert (end_time - start_time) * 1000 == execution_time, 'execution time not in milliseconds'
         assert end_time > start_time
+
+    def test_severity_level_blocker(self, severity_level_blocker):
+        test_cases = severity_level_blocker.get('test_cases')
+        test_case = test_cases[0]
+
+        assert test_case.get('severity_level') == 'blocker'
+
+    def test_severity_level_critical(self, severity_level_critical):
+        test_cases = severity_level_critical.get('test_cases')
+        test_case = test_cases[0]
+
+        assert test_case.get('severity_level') == 'critical'
+
+    def test_severity_level_normal(self, severity_level_normal):
+        test_cases = severity_level_normal.get('test_cases')
+        test_case = test_cases[0]
+
+        assert test_case.get('severity_level') == 'normal'
+
+    def test_severity_level_minor(self, severity_level_minor):
+        test_cases = severity_level_minor.get('test_cases')
+        test_case = test_cases[0]
+
+        assert test_case.get('severity_level') == 'minor'
+
+    def test_severity_level_trivial(self, severity_level_trivial):
+        test_cases = severity_level_trivial.get('test_cases')
+        test_case = test_cases[0]
+
+        assert test_case.get('severity_level') == 'trivial'
+
+    def test_severity_level_not_enum(self, severity_level_not_enum):
+        assert severity_level_not_enum == 'severity is not a type of SeverityLevel'

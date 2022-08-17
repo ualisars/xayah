@@ -62,6 +62,7 @@ class TestCaseModel(BaseModel):
     assertion: str = ''
     title: str = ''
     description: str = ''
+    severity_level: Optional[Literal['blocker', 'critical', 'normal', 'minor', 'trivial']]
     start_time: float = 0.0
     end_time: float = 0.0
     execution_time: float = 0.0
