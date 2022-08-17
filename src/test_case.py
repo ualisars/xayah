@@ -1,5 +1,6 @@
 from functools import wraps
 from .test_result import TestResult
+from .severity_level import SeverityLevel
 from typing import Callable, List, Dict
 from .test_result import StepModel
 import time
@@ -44,6 +45,16 @@ class TestCase:
         :param description: test case description
         """
         return TestCase.__add_test_case_field('description', description)
+
+    @staticmethod
+    def severity(severity: SeverityLevel or str) -> Callable:
+        """
+        add severity level to the test case
+        :param severity: Enum of SeverityLevel
+        """
+        if not isinstance(severity, SeverityLevel):
+            raise ValueError('severity is not a type of SeverityLevel')
+        return TestCase.__add_test_case_field('severity_level', severity.value)
 
     @staticmethod
     def check_status(steps: List[StepModel] or List[Dict]) -> str:
