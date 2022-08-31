@@ -5,6 +5,8 @@ from typing import Callable, List, Dict
 from .test_result import StepModel
 import time
 import inspect
+from io import StringIO
+import sys
 
 
 class TestCase:
@@ -101,6 +103,31 @@ class TestCase:
         return assertion_obj
 
     @staticmethod
+    def get_stderr_as_string(
+        tmp_stdout: sys.stdout,
+        tmp_stderr: sys.stderr,
+        stdout_result: StringIO,
+        stderr_result: StringIO
+    ) -> str:
+        """
+        :param tmp_stdout: link to stdout
+        :param tmp_stderr: link to stderr
+        :param stdout_result: io.StringIO object that replaced stdout
+        :param stderr_result: io.StringIO object that replaced stderr
+        :return: logs in string
+        """
+        # redirect output to sys.stdout
+        sys.stdout = tmp_stdout
+        # get standard output as a string
+        stdout_str = stdout_result.getvalue()
+
+        # redirect output to sys.stdout
+        sys.stderr = tmp_stderr
+        # get standard output as a string
+        stderr_str = stderr_result.getvalue()
+        return stdout_str + stderr_str
+
+    @staticmethod
     def init(fn: Callable, class_name: str = ""):
         """
         intercepts asserts in method and write
@@ -112,10 +139,26 @@ class TestCase:
         def wrapper(*args, **kwargs):
             method_name = fn.__name__
             start_time = 0.0
+            # save the link to display it in console later
+            tmp_stdout = sys.stdout
+
+            # save the link to stderr
+            tmp_stderr = sys.stderr
+
+            # in result will be stored everything
+            # that written to standard output
+            stdout_result = StringIO()
+            sys.stdout = stdout_result
+
+            # in stderr_result will be stored everything
+            # that written to sys.stderr
+            stderr_result = StringIO()
+            sys.stderr = stderr_result
             try:
                 # execute function and measure execution time
                 start_time = time.time()
                 fn(*args, **kwargs)
+                logs = TestCase.get_stderr_as_string(tmp_stdout, tmp_stderr, stdout_result, stderr_result)
                 end_time = time.time()
                 execution_time = (end_time - start_time) * 1000
 
@@ -128,10 +171,12 @@ class TestCase:
                     steps=steps,
                     start_time=start_time,
                     end_time=end_time,
-                    execution_time=execution_time
+                    execution_time=execution_time,
+                    logs=logs
                 )
                 print(f"test_case: {fn.__name__} passed")
             except AssertionError as AssError:
+                logs = TestCase.get_stderr_as_string(tmp_stdout, tmp_stderr, stdout_result, stderr_result)
                 end_time = time.time()
                 execution_time = (end_time - start_time) * 1000
                 assertions = str(AssError).split('\n')
@@ -148,7 +193,8 @@ class TestCase:
                     steps=steps,
                     start_time=start_time,
                     end_time=end_time,
-                    execution_time=execution_time
+                    execution_time=execution_time,
+                    logs=logs
                 )
                 print(f"{fn.__name__} failed with message: {AssError}")
 
