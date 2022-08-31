@@ -3,6 +3,7 @@ from pytest import fixture
 from src.test_suite import TestSuite
 from src.test_case import TestCase
 from src.severity_level import SeverityLevel
+import logging
 
 
 @fixture(scope='function')
@@ -149,3 +150,30 @@ def severity_level_not_enum(test_result):
         ClassTestCaseAndTestSuiteSeverityNotEnum.run_test_cases()
 
     return str(VE.value)
+
+
+@fixture(scope='function')
+def logs(test_result):
+    @TestSuite.init
+    class ClassTestCaseAndTestSuiteLogging:
+        @staticmethod
+        def test_logging():
+            root = logging.getLogger()
+            root.setLevel(logging.DEBUG)
+
+            handler = logging.StreamHandler()
+            handler.setLevel(logging.DEBUG)
+            root.addHandler(handler)
+
+            logging.basicConfig(level=logging.NOTSET)
+            logger = logging.getLogger('test_logs')
+            logger.setLevel(logging.DEBUG)
+            logger.info('start of assertion')
+            assert 1 == 1
+            logger.debug('end of assertion')
+
+    ClassTestCaseAndTestSuiteLogging.run_test_cases()
+    result = test_result.create_test_result()
+    test_suite = result.get(ClassTestCaseAndTestSuiteLogging.__name__)
+    test_cases = test_suite.get('test_cases')
+    return test_cases[0]

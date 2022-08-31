@@ -66,6 +66,7 @@ class TestCaseModel(BaseModel):
     start_time: float = 0.0
     end_time: float = 0.0
     execution_time: float = 0.0
+    logs: str = ''
 
 
 class TestSuiteModel(BaseModel):

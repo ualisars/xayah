@@ -4,7 +4,13 @@ from xayah_test.classes.test_case_classes import (
     ClassTestCaseAssertionMessageEmpty,
     ClassTestCaseAssertionMessage,
     ClassTestCaseExecutionTimePassed,
-    ClassTestCaseExecutionTimeFailed
+    ClassTestCaseExecutionTimeFailed,
+    ClassTestCaseLogsPrint,
+    ClassTestCaseLogging,
+    ClassTestCasePrintAndLogging,
+    ClassTestCaseAllLogging,
+    ClassTestCaseFailedAssertionPrint,
+    ClassTestCaseFailedAssertionLogging
 )
 from src.test_case import TestCase
 from pytest import mark
@@ -146,3 +152,93 @@ class TestTestCase:
         assert end_time != 0.0, 'end time cannot be 0.0, cause its default value'
         assert execution_time != 0.0, 'execution_time cannot be 0.0, cause its default value'
         assert end_time > start_time
+
+    def test_logs_print(self, test_result):
+        class_name = ClassTestCaseLogsPrint.__name__
+        test_case = TestCase.init(
+            ClassTestCaseLogsPrint.test_print,
+            class_name
+        )
+        test_case()
+        method_name = ClassTestCaseLogsPrint.test_print.__name__
+        test_case_name = f'{class_name}::{method_name}'
+        test_case = test_result.get_test_case(test_case_name)
+
+        assertion_message = test_case.get('logs')
+
+        assert assertion_message == 'start of assertions\nend of assertions\n'
+
+    def test_logs_logging(self, test_result):
+        class_name = ClassTestCaseLogging.__name__
+        test_case = TestCase.init(
+            ClassTestCaseLogging.test_logging,
+            class_name
+        )
+        test_case()
+        method_name = ClassTestCaseLogging.test_logging.__name__
+        test_case_name = f'{class_name}::{method_name}'
+        test_case = test_result.get_test_case(test_case_name)
+
+        assertion_message = test_case.get('logs')
+
+        assert assertion_message == 'start of assertion\nend of assertion\n'
+
+    def test_logs_print_and_logging(self, test_result):
+        class_name = ClassTestCasePrintAndLogging.__name__
+        test_case = TestCase.init(
+            ClassTestCasePrintAndLogging.test_print_and_logging,
+            class_name
+        )
+        test_case()
+        method_name = ClassTestCasePrintAndLogging.test_print_and_logging.__name__
+        test_case_name = f'{class_name}::{method_name}'
+        test_case = test_result.get_test_case(test_case_name)
+
+        assertion_message = test_case.get('logs')
+
+        assert assertion_message == 'print\nlogging\n'
+
+    def test_logs_all_loggings(self, test_result):
+        class_name = ClassTestCaseAllLogging.__name__
+        test_case = TestCase.init(
+            ClassTestCaseAllLogging.test_logging,
+            class_name
+        )
+        test_case()
+        method_name = ClassTestCaseAllLogging.test_logging.__name__
+        test_case_name = f'{class_name}::{method_name}'
+        test_case = test_result.get_test_case(test_case_name)
+
+        assertion_message = test_case.get('logs')
+
+        assert assertion_message == 'INFO\nDEBUG\nWARNING\nERROR\nCRITICAL\n'
+
+    def test_logs_failed_assertion_print(self, test_result):
+        class_name = ClassTestCaseFailedAssertionPrint.__name__
+        test_case = TestCase.init(
+            ClassTestCaseFailedAssertionPrint.test_logging,
+            class_name
+        )
+        test_case()
+        method_name = ClassTestCaseFailedAssertionPrint.test_logging.__name__
+        test_case_name = f'{class_name}::{method_name}'
+        test_case = test_result.get_test_case(test_case_name)
+
+        assertion_message = test_case.get('logs')
+
+        assert assertion_message == 'failed\n'
+
+    def test_logs_failed_assertion_logging(self, test_result):
+        class_name = ClassTestCaseFailedAssertionLogging.__name__
+        test_case = TestCase.init(
+            ClassTestCaseFailedAssertionLogging.test_logging,
+            class_name
+        )
+        test_case()
+        method_name = ClassTestCaseFailedAssertionLogging.test_logging.__name__
+        test_case_name = f'{class_name}::{method_name}'
+        test_case = test_result.get_test_case(test_case_name)
+
+        assertion_message = test_case.get('logs')
+
+        assert assertion_message == 'failed\n'

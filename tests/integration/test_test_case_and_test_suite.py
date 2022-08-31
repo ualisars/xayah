@@ -122,3 +122,6 @@ class TestTestCaseAndTestTestSuite:
 
     def test_severity_level_not_enum(self, severity_level_not_enum):
         assert severity_level_not_enum == 'severity is not a type of SeverityLevel'
+
+    def test_logs_logging(self, logs):
+        assert logs.get('logs') == 'start of assertion\nend of assertion\n'
