@@ -103,6 +103,53 @@ class TestCase:
         return assertion_obj
 
     @staticmethod
+    def skip(reason: str = '') -> Callable:
+        """
+        mark test case as skipped by adding attribute
+        to test method
+        :param reason: reason to skip test case
+        """
+        def add_attributes(fn: Callable):
+            setattr(fn, 'is_xayah_skipped', True)
+            if not callable(reason):
+                setattr(fn, 'xayah_skipped_reason', reason)
+            return fn
+
+        if callable(reason):
+            # Called with no parameter
+            return add_attributes(reason)
+        else:
+            # Called with a parameter
+            return add_attributes
+
+    @staticmethod
+    def _check_skipped_method(fn: Callable):
+        """
+        Check whether test case should be skipped
+        :param fn: test method
+        :return: True if test case been skipped and False if not been skipped
+        """
+        if getattr(fn, 'is_xayah_skipped', False):
+            return True
+        return False
+
+    @staticmethod
+    def _mark_skipped(fn: Callable, class_name: str) -> None:
+        """
+        mark test case status as skipped
+        :param fn: test method
+        :param class_name: name of the method' class
+        """
+        reason = getattr(fn, 'xayah_skipped_reason', '')
+        method_name = fn.__name__
+        TestResult().add_test_case(
+            method_name=method_name,
+            class_name=class_name,
+            status='skipped',
+            reason=reason
+        )
+
+    @staticmethod
     def get_stderr_as_string(
         tmp_stdout: sys.stdout,
         tmp_stderr: sys.stderr,
@@ -138,6 +185,12 @@ class TestCase:
         @wraps(fn)
         def wrapper(*args, **kwargs):
             method_name = fn.__name__
+
+            # check for skipping
+            if TestCase._check_skipped_method(fn):
+                TestCase._mark_skipped(fn, class_name)
+                return
+
             start_time = 0.0
             # save the link to display it in console later
             tmp_stdout = sys.stdout

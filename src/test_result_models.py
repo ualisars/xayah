@@ -44,6 +44,7 @@ class TestCaseModel(BaseModel):
     - name: name of the test case
     - class_name: name of the parent class
     - method_name: name of the test method
+    - status: test script status: passed, failed etc.
     - steps: testcase steps
     - assertion_message: message shows a reason why test case failed
     - assertion: assertion itself e.g. assert name == 'Jon Snow'
@@ -52,11 +53,12 @@ class TestCaseModel(BaseModel):
     - start_time: start of the test case in seconds since the Epoch
     - end_time: end of the test case in seconds since the Epoch
     - execution_time: time required to execute test case in milliseconds
+    - reason: reason to skip test case or why it is expected to fail
     """
     name: str
     class_name: Optional[str]
     method_name: str
-    status: Literal['passed', 'failed'] = 'failed'
+    status: Optional[Literal['passed', 'failed', 'skipped']]
     steps: List[StepModel] = []
     assertion_message: str = ''
     assertion: str = ''
@@ -67,6 +69,7 @@ class TestCaseModel(BaseModel):
     end_time: float = 0.0
     execution_time: float = 0.0
     logs: str = ''
+    reason: str = ''
 
 
 class TestSuiteModel(BaseModel):
