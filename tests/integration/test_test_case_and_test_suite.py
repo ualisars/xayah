@@ -90,6 +90,7 @@ class TestTestCaseAndTestTestSuite:
         assert (end_time - start_time) * 1000 == execution_time, 'execution time not in milliseconds'
         assert end_time > start_time
 
+    # test logs
     def test_severity_level_blocker(self, severity_level_blocker):
         test_cases = severity_level_blocker.get('test_cases')
         test_case = test_cases[0]
@@ -125,3 +126,31 @@ class TestTestCaseAndTestTestSuite:
 
     def test_logs_logging(self, logs):
         assert logs.get('logs') == 'start of assertion\nend of assertion\n'
+
+    # test skip
+    def test_skip_without_reason(self, skip_without_reason):
+        test_cases = skip_without_reason.get('test_cases')
+        test_case = test_cases[0]
+
+        assert test_case.get('status') == 'skipped'
+        assert test_case.get('reason') == ''
+
+    def test_skip_with_reason(self, skip_with_reason):
+        test_cases = skip_with_reason.get('test_cases')
+        test_case = test_cases[0]
+
+        assert test_case.get('status') == 'skipped'
+        assert test_case.get('reason') == 'test skip'
+
+    def test_skip_one_of_two_cases(self, skip_one_of_two_cases):
+        test_cases = skip_one_of_two_cases.get('test_cases')
+
+        assert len(test_cases) == 2
+
+        executed_test_case = test_cases[0]
+
+        assert executed_test_case.get('status') == 'passed'
+
+        skipped_test_case = test_cases[1]
+
+        assert skipped_test_case.get('status') == 'skipped'

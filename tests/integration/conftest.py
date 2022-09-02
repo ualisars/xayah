@@ -177,3 +177,45 @@ def logs(test_result):
     test_suite = result.get(ClassTestCaseAndTestSuiteLogging.__name__)
     test_cases = test_suite.get('test_cases')
     return test_cases[0]
+
+
+@fixture(scope='function')
+def skip_without_reason(test_result):
+    @TestSuite.init
+    class ClassTestCaseAndTestSuiteSkipWithoutReason:
+        @TestCase.skip
+        def test_skip(self):
+            assert 2 == 2
+
+    ClassTestCaseAndTestSuiteSkipWithoutReason.run_test_cases()
+    result = test_result.create_test_result()
+    return result.get(ClassTestCaseAndTestSuiteSkipWithoutReason.__name__)
+
+
+@fixture(scope='function')
+def skip_with_reason(test_result):
+    @TestSuite.init
+    class ClassTestCaseAndTestSuiteSkipWithReason:
+        @TestCase.skip('test skip')
+        def test_skip(self):
+            assert 2 == 2
+
+    ClassTestCaseAndTestSuiteSkipWithReason.run_test_cases()
+    result = test_result.create_test_result()
+    return result.get(ClassTestCaseAndTestSuiteSkipWithReason.__name__)
+
+
+@fixture(scope='function')
+def skip_one_of_two_cases(test_result):
+    @TestSuite.init
+    class ClassTestCaseAndTestSuiteSkipOne:
+        def test_one(self):
+            assert 2 == 2
+
+        @TestCase.skip('test skip')
+        def test_skip(self):
+            assert 4 == 2
+
+    ClassTestCaseAndTestSuiteSkipOne.run_test_cases()
+    result = test_result.create_test_result()
+    return result.get(ClassTestCaseAndTestSuiteSkipOne.__name__)
