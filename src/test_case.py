@@ -54,9 +54,10 @@ class TestCase:
         add severity level to the test case
         :param severity: Enum of SeverityLevel
         """
-        if not isinstance(severity, SeverityLevel):
-            raise ValueError('severity is not a type of SeverityLevel')
-        return TestCase.__add_test_case_field('severity_level', severity.value)
+        if isinstance(severity, SeverityLevel):
+            return TestCase.__add_test_case_field('severity_level', severity.value)
+        else:
+            return TestCase.__add_test_case_field('severity_level', severity)
 
     @staticmethod
     def check_status(steps: List[StepModel] or List[Dict]) -> str:
