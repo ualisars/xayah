@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from pydantic.types import Optional
-from pydantic.typing import Literal, List
+from pydantic.typing import Literal, List, Dict
 
 
 class StepModel(BaseModel):
@@ -54,6 +54,7 @@ class TestCaseModel(BaseModel):
     - end_time: end of the test case in seconds since the Epoch
     - execution_time: time required to execute test case in milliseconds
     - reason: reason to skip test case or why it is expected to fail
+    - additional_params: any additional data that user wants to add to test case
     """
     name: str
     class_name: Optional[str]
@@ -70,6 +71,7 @@ class TestCaseModel(BaseModel):
     execution_time: float = 0.0
     logs: str = ''
     reason: str = ''
+    additional_params: Optional[Dict]
 
 
 class TestSuiteModel(BaseModel):

@@ -150,6 +150,28 @@ class TestCase:
         )
 
     @staticmethod
+    def add_additional_params(cls: any, fn: Callable, additional_params: Dict[any, any]) -> None:
+        """
+        :param cls: test class
+        :param fn: test method
+        :param additional_params: params to be added to test case
+        """
+        method_name = fn.__name__
+        class_name = cls.__name__
+        test_case_name = f'{class_name}::{method_name}'
+        test_case = TestResult().get_test_case(test_case_name)
+        previous_params = {}
+        if test_case:
+            previous_params = test_case.get('additional_params')
+        if previous_params:
+            additional_params.update(previous_params)
+        TestResult().add_test_case(
+            class_name=class_name,
+            method_name=method_name,
+            additional_params=additional_params
+        )
+
+    @staticmethod
     def get_stderr_as_string(
         tmp_stdout: sys.stdout,
         tmp_stderr: sys.stderr,

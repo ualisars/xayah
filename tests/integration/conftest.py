@@ -219,3 +219,46 @@ def skip_one_of_two_cases(test_result):
     ClassTestCaseAndTestSuiteSkipOne.run_test_cases()
     result = test_result.create_test_result()
     return result.get(ClassTestCaseAndTestSuiteSkipOne.__name__)
+
+
+@fixture(scope='function')
+def test_case_one_additional_params(test_result):
+    @TestSuite.init
+    class ClassTestCaseOneAdditionalParams:
+        @staticmethod
+        def test_additional_params():
+            message = 'test message'
+            TestCase.add_additional_params(
+                ClassTestCaseOneAdditionalParams,
+                ClassTestCaseOneAdditionalParams.test_additional_params,
+                {'message': message}
+            )
+            assert 1 == 1
+
+    ClassTestCaseOneAdditionalParams.run_test_cases()
+    result = test_result.create_test_result()
+    return result.get(ClassTestCaseOneAdditionalParams.__name__)
+
+
+@fixture(scope='function')
+def test_case_two_additional_params(test_result):
+    @TestSuite.init
+    class ClassTestCaseTwoAdditionalParams:
+        @staticmethod
+        def test_additional_params():
+            message = 'test message'
+            TestCase.add_additional_params(
+                ClassTestCaseTwoAdditionalParams,
+                ClassTestCaseTwoAdditionalParams.test_additional_params,
+                {'message': message}
+            )
+            assert 3 == 3
+            TestCase.add_additional_params(
+                ClassTestCaseTwoAdditionalParams,
+                ClassTestCaseTwoAdditionalParams.test_additional_params,
+                {'add': 'add'}
+            )
+
+    ClassTestCaseTwoAdditionalParams.run_test_cases()
+    result = test_result.create_test_result()
+    return result.get(ClassTestCaseTwoAdditionalParams.__name__)
