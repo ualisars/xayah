@@ -4,6 +4,7 @@ from src.test_suite import TestSuite
 from src.test_case import TestCase
 from src.severity_level import SeverityLevel
 import logging
+from pydantic.error_wrappers import ValidationError
 
 
 @fixture(scope='function')
@@ -87,6 +88,35 @@ def severity_level_blocker(test_result):
 
 
 @fixture(scope='function')
+def severity_level_strings(test_result):
+    @TestSuite.init
+    class ClassTestCaseAndTestSuiteSeverityString:
+        @TestCase.severity('blocker')
+        def test_blocker(self):
+            assert 2 == 2
+
+        @TestCase.severity('critical')
+        def test_critical(self):
+            assert 20 == 2
+
+        @TestCase.severity('normal')
+        def test_normal(self):
+            assert 2 == 2
+
+        @TestCase.severity('minor')
+        def test_minor(self):
+            assert 12 == 7
+
+        @TestCase.severity('trivial')
+        def test_trivial(self):
+            assert 'cat' == 'tac'
+
+    ClassTestCaseAndTestSuiteSeverityString.run_test_cases()
+    result = test_result.create_test_result()
+    return result.get(ClassTestCaseAndTestSuiteSeverityString.__name__)
+
+
+@fixture(scope='function')
 def severity_level_critical(test_result):
     @TestSuite.init
     class ClassTestCaseAndTestSuiteSeverityCritical:
@@ -139,17 +169,17 @@ def severity_level_trivial(test_result):
 
 
 @fixture(scope='function')
-def severity_level_not_enum(test_result):
-    with pytest.raises(ValueError) as VE:
+def severity_level_validation_error(test_result):
+    with pytest.raises(ValidationError):
         @TestSuite.init
-        class ClassTestCaseAndTestSuiteSeverityNotEnum:
-            @TestCase.severity('important')
+        class ClassTestCaseAndTestSuiteSeverityValidationError:
+            @TestCase.severity('ok')
             def test_severity(self):
                 assert 2 == 2
 
-        ClassTestCaseAndTestSuiteSeverityNotEnum.run_test_cases()
+        ClassTestCaseAndTestSuiteSeverityValidationError.run_test_cases()
 
-    return str(VE.value)
+    return 'validation_error'
 
 
 @fixture(scope='function')
