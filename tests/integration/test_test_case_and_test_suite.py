@@ -154,3 +154,20 @@ class TestTestCaseAndTestTestSuite:
         skipped_test_case = test_cases[1]
 
         assert skipped_test_case.get('status') == 'skipped'
+
+    # test case additional params
+    def test_one_additional_params(self, test_case_one_additional_params):
+        test_cases = test_case_one_additional_params.get('test_cases')
+
+        test_case = test_cases[0]
+
+        assert test_case.get('additional_params') == {'message': 'test message'}
+
+    def test_two_additional_params(self, test_case_two_additional_params):
+        test_cases = test_case_two_additional_params.get('test_cases')
+
+        test_case = test_cases[0]
+
+        additional_params = {'message': 'test message', 'add': 'add'}
+
+        assert test_case.get('additional_params') == additional_params
