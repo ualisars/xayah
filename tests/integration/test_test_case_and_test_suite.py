@@ -90,7 +90,7 @@ class TestTestCaseAndTestTestSuite:
         assert (end_time - start_time) * 1000 == execution_time, 'execution time not in milliseconds'
         assert end_time > start_time
 
-    # test logs
+    # test severity levels
     def test_severity_level_blocker(self, severity_level_blocker):
         test_cases = severity_level_blocker.get('test_cases')
         test_case = test_cases[0]
@@ -121,9 +121,18 @@ class TestTestCaseAndTestTestSuite:
 
         assert test_case.get('severity_level') == 'trivial'
 
-    def test_severity_level_not_enum(self, severity_level_not_enum):
-        assert severity_level_not_enum == 'severity is not a type of SeverityLevel'
+    def test_severity_level_strings(self, severity_level_strings):
+        test_cases = severity_level_strings.get('test_cases')
 
+        assert len(test_cases) == 5, 'not exactly 5 test cases'
+
+        severities = set(map(lambda test_case: test_case.get('severity_level'), test_cases))
+        assert {'blocker', 'critical', 'normal', 'minor', 'trivial'} == severities
+
+    def test_severity_level_validation_error(self, severity_level_validation_error):
+        assert severity_level_validation_error == 'validation_error'
+
+    # test logs
     def test_logs_logging(self, logs):
         assert logs.get('logs') == 'start of assertion\nend of assertion\n'
 
