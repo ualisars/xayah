@@ -1,5 +1,5 @@
-from src.test_suite import TestSuite
-from src.check import Check
+from src.xayah.test_suite import TestSuite
+from src.xayah.check import Check
 
 
 @TestSuite.init

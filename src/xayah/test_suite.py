@@ -1,6 +1,6 @@
 import inspect
-from .test_case import TestCase
-from .test_result import TestResult
+from src.xayah.test_case import TestCase
+from src.xayah.test_result import TestResult
 from typing import Callable, Dict, List
 
 

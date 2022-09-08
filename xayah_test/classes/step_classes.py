@@ -1,5 +1,5 @@
 from src import TestSuite
-from src.step import Step
+from src.xayah.step import Step
 
 
 @TestSuite.init

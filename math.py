@@ -1,5 +1,5 @@
 from xayah_test import CheckString
-from src.test_result import TestResult
+from src.xayah.test_result import TestResult
 
 
 # TestString.run_test_cases()

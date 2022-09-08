@@ -1,4 +1,1 @@
-from .test_suite import TestSuite
-from .test_case import TestCase
-from .step import Step
-from .check import Check
+from src.xayah import TestResult, TestCase, TestSuite, SeverityLevel, Step, Check

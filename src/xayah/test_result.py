@@ -1,4 +1,4 @@
-from .test_result_models import TestCaseModel, TestSuiteModel, StepModel, TestClassesModel
+from src.xayah.test_result_models import TestCaseModel, TestSuiteModel, StepModel, TestClassesModel
 from typing import List, Dict
 
 

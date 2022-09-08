@@ -1,5 +1,5 @@
 from pytest import fixture
-from src.test_suite import TestSuite
+from src.xayah.test_suite import TestSuite
 
 
 @fixture(scope='function')

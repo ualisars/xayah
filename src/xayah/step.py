@@ -1,9 +1,9 @@
 import inspect
-from .test_result import TestResult
+from src.xayah.test_result import TestResult
 import time
 
 
-class Check:
+class Step:
     def __init__(self, name):
         self.name = name
         self.method_name = inspect.stack()[1][3]
@@ -27,7 +27,7 @@ class Check:
                 name=self.name,
                 method_name=self.method_name,
                 message=message,
-                category='check',
+                category='step',
                 status='failed',
                 start_time=self.start_time,
                 end_time=self.end_time,
@@ -38,10 +38,9 @@ class Check:
                 name=self.name,
                 method_name=self.method_name,
                 message=message,
-                category='check',
+                category='step',
                 status='passed',
                 start_time=self.start_time,
                 end_time=self.end_time,
                 execution_time=self.execution_time
             )
-        return True
