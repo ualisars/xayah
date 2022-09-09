@@ -12,7 +12,7 @@ from xayah_test.classes.test_case_classes import (
     ClassTestCaseFailedAssertionPrint,
     ClassTestCaseFailedAssertionLogging
 )
-from src.test_case import TestCase
+from src.xayah.test_case import TestCase
 from pytest import mark
 
 

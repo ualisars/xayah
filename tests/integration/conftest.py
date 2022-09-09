@@ -1,8 +1,8 @@
 import pytest
 from pytest import fixture
-from src.test_suite import TestSuite
-from src.test_case import TestCase
-from src.severity_level import SeverityLevel
+from src.xayah.test_suite import TestSuite
+from src.xayah.test_case import TestCase
+from src.xayah.severity_level import SeverityLevel
 import logging
 from pydantic.error_wrappers import ValidationError
 
