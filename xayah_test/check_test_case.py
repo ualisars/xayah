@@ -1,6 +1,6 @@
-from src.test_suite import TestSuite
-from src.test_case import TestCase
-from src.step import Step
+from src.xayah.test_suite import TestSuite
+from src.xayah.test_case import TestCase
+from src.xayah.step import Step
 
 
 @TestSuite.init
