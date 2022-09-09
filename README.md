@@ -12,7 +12,7 @@ Xayah is used to test and generate report for
 python application.
 
 test suite example:
-```python
+```
 @TestSuite.init
 class CheckTestCase:
     @TestCase.title('test case description')
@@ -30,7 +30,7 @@ Xayah is available on PyPI:
 python -m pip install xayah
 ```
 
-##Features
+## Features
 * adding title, description, severity levels, etc.
 * test parametrization
 * steps
@@ -40,7 +40,7 @@ python -m pip install xayah
 ## Usage
 In order to generate report, the test class should be
 decorated with TestSuite.init method:
-```python
+```
 @TestSuite.init
 class CheckTestCase:
     def test_method(self):
@@ -57,7 +57,7 @@ CheckTestCase.run_test_cases()
 in order to created test result
 TestResult().create_test_result() method should
 be called:
-```python
+```
 result = TestResult().create_test_result()
 ```
 then test result can be parsed in any format

@@ -9,16 +9,19 @@ with open(path.join(HERE, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='xayah',
-    version='0.0.1',
+    url='https://github.com/ualisars/xayah',
+    version='0.0.5',
     description='A lightweight testing tool with test report functionality',
     long_description=long_description,
+    long_description_content_type='text/markdown',
     license='MIT',
     packages=find_packages(
-        include=['src']
+        where='src',
+        include=['xayah*']
     ),
+    package_dir={'': 'src'},
     include_package_data=True,
     install_requires=[
-        'pydantic == "1.7.3"',
-        'python_version == "3.8"',
+        'pydantic == 1.7.3'
     ]
 )

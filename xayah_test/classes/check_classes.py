@@ -1,4 +1,4 @@
-from src import TestSuite
+from src.xayah import TestSuite
 from src.xayah.check import Check
 
 

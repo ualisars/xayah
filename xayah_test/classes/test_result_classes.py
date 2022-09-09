@@ -1,4 +1,4 @@
-from src import TestSuite
+from src.xayah import TestSuite
 
 
 @TestSuite.init
