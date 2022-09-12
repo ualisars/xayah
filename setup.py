@@ -10,7 +10,7 @@ with open(path.join(HERE, 'README.md'), encoding='utf-8') as f:
 setup(
     name='xayah',
     url='https://github.com/ualisars/xayah',
-    version='0.0.5',
+    version='0.0.6',
     description='A lightweight testing tool with test report functionality',
     long_description=long_description,
     long_description_content_type='text/markdown',
