@@ -7,8 +7,8 @@ A lightweight testing tool with test report functionality
 * [Features](#Features)
 * [Documentation](#Documentation)
 * [Usage](#usage)
-* [Telegram bot example](#Telegram bot example)
-* [Future work](#Future work)
+* [Telegram_bot_example](#Telegram_bot_example)
+* [Future_work](#Future_work)
 
 ## General info
 Xayah is used to test and generate report for 
@@ -76,7 +76,7 @@ result = TestResult().create_test_result()
 ```
 then test result can be parsed in any format
 
-## Telegram bot example
+## Telegram_bot_example
 Originally, xayah was built as a test report 
 tool for telegram bots.
 
@@ -129,7 +129,7 @@ Google main page:
 page title is Google - passed
 ```
 
-## Future Work
+## Future_work
 Planned features:
 - Console application
 - Running xayah tests through console application
