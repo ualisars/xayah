@@ -40,10 +40,4 @@ generated and be parsed to HTML or passed to telegram bot message.
 
    modules/test_result
 
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   modules/step

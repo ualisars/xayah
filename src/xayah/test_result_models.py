@@ -76,7 +76,7 @@ class TestCaseModel(BaseModel):
 
 class TestSuiteModel(BaseModel):
     """
-    represents all test cases been run
+    represents all classes that been executed
     attributes:
     - class_name: name of the run class
     - title: title of the test suite
