@@ -18,7 +18,7 @@ class TestResult(metaclass=MetaSingleton):
     attributes:
     - test classes: list of all classes that been decorated with TestScenario
     - test cases: all test methods of particular class
-    - test suites: object of class_name and its methods (test cases)
+    - test suites: represents all classes that been executed
     - steps: steps of a test case
     """
     def __init__(self):
