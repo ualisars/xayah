@@ -61,6 +61,23 @@ to the test case
                 # check filter here
 
 
+Link
+-------------------------
+TestSuite.link(link: str) adds a link to the test case
+
+.. code-block::
+    :caption: link https://github.com/ualisars/xayah will be added to the test case
+
+        from xayah import TestSuite, TestCase
+
+
+        @TestSuite.init
+        class TestItems
+            @TestCase.link('https://github.com/ualisars/xayah')
+            def test_buy_item(def):
+                # check buy item functionality here
+
+
 Severity
 -------------------------
 

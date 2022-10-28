@@ -292,3 +292,16 @@ def test_case_two_additional_params(test_result):
     ClassTestCaseTwoAdditionalParams.run_test_cases()
     result = test_result.create_test_result()
     return result.get(ClassTestCaseTwoAdditionalParams.__name__)
+
+
+@fixture(scope='function')
+def link(test_result):
+    @TestSuite.init
+    class ClassTestCaseAndTestSuiteLink:
+        @TestCase.link('https://github.com')
+        def test_link(self):
+            assert 1 == 1
+
+    ClassTestCaseAndTestSuiteLink.run_test_cases()
+    result = test_result.create_test_result()
+    return result.get(ClassTestCaseAndTestSuiteLink.__name__)

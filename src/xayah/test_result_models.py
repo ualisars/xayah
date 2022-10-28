@@ -50,6 +50,7 @@ class TestCaseModel(BaseModel):
     - assertion: assertion itself e.g. assert name == 'Jon Snow'
     - title: test case title
     - description: additional information about test case
+    - link: link to the test case (e.g. in testrail)
     - start_time: start of the test case in seconds since the Epoch
     - end_time: end of the test case in seconds since the Epoch
     - execution_time: time required to execute test case in milliseconds
@@ -65,6 +66,7 @@ class TestCaseModel(BaseModel):
     assertion: str = ''
     title: str = ''
     description: str = ''
+    link: str = ''
     severity_level: Optional[Literal['blocker', 'critical', 'normal', 'minor', 'trivial']]
     start_time: float = 0.0
     end_time: float = 0.0

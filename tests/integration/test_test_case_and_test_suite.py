@@ -180,3 +180,9 @@ class TestTestCaseAndTestTestSuite:
         additional_params = {'message': 'test message', 'add': 'add'}
 
         assert test_case.get('additional_params') == additional_params
+
+    def test_test_case_link(self, link):
+        test_cases = link.get('test_cases')
+        test_case = test_cases[0]
+
+        assert test_case.get('link') == 'https://github.com'

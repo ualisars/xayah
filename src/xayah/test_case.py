@@ -60,6 +60,14 @@ class TestCase:
             return TestCase.__add_test_case_field('severity_level', severity)
 
     @staticmethod
+    def link(link: str) -> Callable:
+        """
+        add link to test case
+        :param link: test case link
+        """
+        return TestCase.__add_test_case_field('link', link)
+
+    @staticmethod
     def check_status(steps: List[StepModel] or List[Dict]) -> str:
         """
         loop through all steps and if t least one step is failed so
