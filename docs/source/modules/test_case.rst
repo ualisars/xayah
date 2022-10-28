@@ -27,7 +27,7 @@ ought to be inside test suite
 Title
 -------------------------
 
-TestSuite.title(title: str) adds title to the test case
+TestCase.title(title: str) adds title to the test case
 
 .. code-block::
     :caption: title 'Response time is less than 200ms' will be added to the test case
@@ -45,7 +45,7 @@ TestSuite.title(title: str) adds title to the test case
 Description
 -------------------------
 
-TestSuite.description(description: str) adds description
+TestCase.description(description: str) adds description
 to the test case
 
 .. code-block::
@@ -63,7 +63,7 @@ to the test case
 
 Link
 -------------------------
-TestSuite.link(link: str) adds a link to the test case
+TestCase.link(link: str) adds a link to the test case
 
 .. code-block::
     :caption: link https://github.com/ualisars/xayah will be added to the test case
@@ -81,7 +81,7 @@ TestSuite.link(link: str) adds a link to the test case
 Severity
 -------------------------
 
-TestSuite(severity: str or SeverityLevel) adds severity level
+TestCase(severity: str or SeverityLevel) adds severity level
 to the test case
 
 .. code-block::
@@ -92,7 +92,7 @@ to the test case
 
         @TestSuite.init
         class TestShop:
-            @TestSuite.severity(SeverityLevel.CRITICAL)
+            @TestCase.severity(SeverityLevel.CRITICAL)
             def test_buying_in_game_currency(self):
                 # check buying champion with blue essence here
 
@@ -106,7 +106,7 @@ note: severity level can be added with strings
 
         @TestSuite.init
         class TestShop:
-            @TestSuite.severity('critical')
+            @TestCase.severity('critical')
             def test_buying_in_game_currency(self):
                 # check buying champion with blue essence here
 
