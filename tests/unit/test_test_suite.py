@@ -35,3 +35,15 @@ class TestTestSuite:
     def test_title(self, test_suite_title_result):
         title = test_suite_title_result.get('title', '')
         assert title == 'Проверка заголовка тест кейса'
+
+    def test_several_before_all(self, several_before_all):
+        first_before_all = several_before_all.get('FirstBeforeAll')
+        first_before_all_test_case = first_before_all.get('test_cases')[0]
+        first_before_all_add_param_name = first_before_all_test_case.get('additional_params').get('name')
+
+        second_before_all = several_before_all.get('SecondBeforeAll')
+        second_before_all_test_case = second_before_all.get('test_cases')[0]
+        second_before_all_add_param_name = second_before_all_test_case.get('additional_params').get('name')
+
+        assert first_before_all_add_param_name == 'first before all'
+        assert second_before_all_add_param_name == 'second before all'
