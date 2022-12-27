@@ -11,7 +11,7 @@ class SharedData:
         add data to shared data which can be used by other test suites
         :param key: name of the shared data
         :param value: value of the shared data
-        :param scope: scope of the shared data (can be local and global)
+        :param scope: scope of the shared data (can be module and global)
         """
         module = stack()[1][1]
         if scope == 'module':
