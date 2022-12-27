@@ -41,3 +41,5 @@ generated and be parsed to HTML or passed to telegram bot message.
    modules/test_result
 
    modules/step
+
+   modules/shared_data
