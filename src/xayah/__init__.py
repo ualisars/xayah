@@ -4,3 +4,4 @@ from .step import Step
 from .check import Check
 from .severity_level import SeverityLevel
 from .test_result import TestResult
+from .shared_data import SharedData
