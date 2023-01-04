@@ -119,7 +119,11 @@ class TestSuite:
         return add_title
 
     @staticmethod
-    def check_param_name(param: dict) -> None:
-        if not param.get('name'):
+    def check_param_name(test_param: dict) -> None:
+        """
+        check if test param contains 'key' name
+        :param test_param: dictionary that passed in run_test_cases method
+        """
+        if not test_param.get('name'):
             raise ValueError("field 'name' is required in test param")
 
