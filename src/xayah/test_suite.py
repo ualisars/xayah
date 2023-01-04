@@ -31,6 +31,7 @@ class TestSuite:
                     args = ({},)
                 for param in args:
                     class_name = test_class.__name__ + param.get('name', '')
+                    TestSuite.check_param_name(param)
                     setattr(test_class, 'test_param', param)
                     before_all = teardown_methods.get(TestSuite.before_all_method)
                     if before_all:
@@ -116,3 +117,9 @@ class TestSuite:
             TestResult().add_test_suite(class_name=class_name, title=title)
             return cls
         return add_title
+
+    @staticmethod
+    def check_param_name(param: dict) -> None:
+        if not param.get('name'):
+            raise ValueError("field 'name' is required in test param")
+

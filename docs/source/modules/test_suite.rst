@@ -94,3 +94,37 @@ won't be included in the test result
                 # some code that need to run after tests
             def test_add(self):
                 assert 1 + 2 == 3
+
+
+Parametrization
+--------------
+Test suites can be parametrized by passing dictionaries
+to 'run_test_cases' method
+
+Each test suite will be run for each object
+passed in 'run_test_cases' method
+
+Variables that been passed
+in run_test_cases' method will be
+available via self.test_param variable
+
+
+.. code-block::
+    :caption: variable limit will be passed to test cases in
+    TestLimit class and will be available through self.test_param
+
+    from xayah import TestSuite
+
+    def add_limit(limit):
+        if limit >= 0:
+            return True
+        return False
+
+
+    @TestSuite.init
+    class TestLimit:
+    def test_limit(self):
+        limit = self.test_param.get('limit')
+        assert bool(add_limit(limit)) == True
+
+    CheckTestCase.run_test_cases({'limit': 50, 'name': 'limit50'}, {'limit': 60, 'name': 'limit60'})
