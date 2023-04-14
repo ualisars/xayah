@@ -124,6 +124,6 @@ class TestSuite:
         check if test param contains 'key' name
         :param test_param: dictionary that passed in run_test_cases method
         """
-        if not test_param.get('name'):
+        if test_param and not test_param.get('name'):
             raise ValueError("field 'name' is required in test param")
 
