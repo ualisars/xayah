@@ -2,6 +2,7 @@ import inspect
 from .test_case import TestCase
 from .test_result import TestResult
 from typing import Callable, Dict, List
+import asyncio
 
 
 class TestSuite:
@@ -36,7 +37,8 @@ class TestSuite:
                     before_all = teardown_methods.get(TestSuite.before_all_method)
                     if before_all:
                         before_all()
-                    method_names = TestSuite.run_methods(class_name, methods)
+
+                    method_names = asyncio.run(TestSuite.run_methods(methods, class_name))
 
                     after_all = teardown_methods.get(TestSuite.after_all_method)
                     if after_all:
@@ -90,24 +92,27 @@ class TestSuite:
         return teardown_methods
 
     @staticmethod
-    def run_methods(class_name: str, methods: List[Callable]) -> List[str]:
+    def filter_methods(methods: List[Callable]) -> tuple:
+        """
+        choose all methods that have test prefix
+        :param methods: list of methods
+        """
+        methods = list(filter(lambda method: method.__name__.lower().startswith('test'), methods))
+        method_names = list(map(lambda method: method.__name__, methods))
+        return methods, method_names
+
+    @staticmethod
+    async def run_methods(methods: List[Callable], class_name: str) -> List[str]:
         """
         run all methods in the class that have test prefix, e.g. test_login
         :param class_name: name of the class
         :param methods: all methods in the class
         """
-        method_names = []
-        for method in methods:
-            method_name = method.__name__
-            if not method_name.lower().startswith('test'):
-                continue
-            try:
-                method_names.append(method_name)
-                test_case = TestCase.init(method, class_name)
-                test_case()
-            except TypeError:
-                # Can't handle methods with required arguments.
-                pass
+        methods, method_names = TestSuite.filter_methods(methods)
+        loop = asyncio.get_running_loop()
+        await asyncio.gather(*(loop.run_in_executor(
+            None, TestCase.init(method, class_name)) for method in methods)
+        )
         return method_names
 
     @staticmethod
